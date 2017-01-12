@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Vscam</string>
+    <string name="data_error">服务器返回数据错误</string>
+    <string name="net_error">网络开了一个小差</string>
+    <string name="already_end">已经到底啦</string>
+
+    <color name="red_btn_bg_color">@android:color/black</color>
+    <color name="red_btn_bg_pressed_color">@android:color/black</color>
+    <color name="warning_stroke_color">@android:color/black</color>
+    <color name="gray_btn_bg_color">@android:color/darker_gray</color>
+</resources>

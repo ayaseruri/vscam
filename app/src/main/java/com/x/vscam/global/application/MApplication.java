@@ -1,0 +1,30 @@
+package com.x.vscam.global.application;
+
+import org.androidannotations.annotations.EApplication;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.x.vscam.global.net.ApiIml;
+import com.x.vscam.global.net.OkHttp3ImagePipelineConfigFactory;
+
+import android.app.Application;
+import ykooze.ayaseruri.codesslib.ui.LocalDisplay;
+
+/**
+ * Created by wufeiyang on 2017/1/12.
+ */
+@EApplication
+public class MApplication  extends Application{
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        LocalDisplay.init(this);
+
+        if(!Fresco.hasBeenInitialized()){
+            ImagePipelineConfig config = OkHttp3ImagePipelineConfigFactory
+                    .newBuilder(this, ApiIml.getOkHttpClient(this)).build();
+            Fresco.initialize(this, config);
+        }
+    }
+}
