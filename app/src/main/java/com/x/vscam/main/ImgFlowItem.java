@@ -7,10 +7,12 @@ import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.x.vscam.R;
 import com.x.vscam.global.Constans;
+import com.x.vscam.global.utils.StartUtils;
 
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import ykooze.ayaseruri.codesslib.adapter.RecyclerAdapter;
@@ -50,5 +52,12 @@ public class ImgFlowItem extends RecyclerAdapter.Item<ImgFlowBean.GridsBean> {
         }
         mImg.setImageURI(imgUrl);
         mUserName.setText(null == data.getUsersBean() ? "" : data.getUsersBean().getName());
+
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StartUtils.startImgDetail(getContext());
+            }
+        });
     }
 }

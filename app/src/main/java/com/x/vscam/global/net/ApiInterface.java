@@ -22,6 +22,6 @@ public interface ApiInterface {
 
     @Multipart
     @POST("/x/?a=upload")
-    Observable<UploadResponseBean> uploadImg(@Part("file\"; filename=\"image.png\"") RequestBody imgs);
+    Observable<UploadResponseBean> uploadImg(@Part("pp\"; filename=\"image.jpg") RequestBody imgs);
 
 }

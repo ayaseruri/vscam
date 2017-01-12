@@ -24,7 +24,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.reactivex.Observer;
@@ -32,22 +35,21 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import ykooze.ayaseruri.codesslib.io.FileUtils;
 import ykooze.ayaseruri.codesslib.net.progress.HttpProgressUtils;
 import ykooze.ayaseruri.codesslib.net.progress.ProgressListener;
 import ykooze.ayaseruri.codesslib.others.Utils;
 import ykooze.ayaseruri.codesslib.rx.RxUtils;
 
-@EActivity(R.layout.activity_img_upload)
+@EActivity
 public class ImgUploadActivity extends BaseActivity {
 
     private static final short OPEN_GALLERY_REQUEST = 100;
 
-    @ViewById(R.id.progress_bar)
-    ContentLoadingProgressBar mProgressBar;
-    @ViewById(R.id.fliter_name)
-    TextView mFliterName;
-    @ViewById(R.id.img)
-    SimpleDraweeView mImg;
+    private View mRootView;
+    private ContentLoadingProgressBar mProgressBar;
+    private TextView mFliterName;
+    private SimpleDraweeView mImg;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,20 +68,37 @@ public class ImgUploadActivity extends BaseActivity {
                 });
     }
 
-    @AfterViews
-    void init(){
-        mProgressBar.setMax(100);
+    private synchronized void initView(){
+        if(null == mRootView){
+            mRootView = LayoutInflater.from(this).inflate(R.layout.activity_img_upload, null);
+            mProgressBar = (ContentLoadingProgressBar) mRootView.findViewById(R.id.progress_bar);
+            mFliterName = (TextView) mRootView.findViewById(R.id.fliter_name);
+            mImg = (SimpleDraweeView) mRootView.findViewById(R.id.img);
+            setContentView(mRootView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if(OPEN_GALLERY_REQUEST == requestCode && Activity.RESULT_OK == resultCode){
-            try {
-                uploadImg(new File(data.getData().getPath()));
-            } catch (IOException e) {
-                e.printStackTrace();
+        if(OPEN_GALLERY_REQUEST == requestCode){
+            if(Activity.RESULT_OK == resultCode){
+                try {
+                    String realImgPath = FileUtils.getUriPath(this, data.getData());
+                    if(TextUtils.isEmpty(realImgPath)){
+                        finish();
+                    }else {
+                        initView();
+                        mImg.setImageURI(data.getData());
+                        mProgressBar.setMax(100);
+                        uploadImg(new File(realImgPath));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    finish();
+                }
+            }else if(Activity.RESULT_CANCELED == resultCode){
+                finish();
             }
         }
     }

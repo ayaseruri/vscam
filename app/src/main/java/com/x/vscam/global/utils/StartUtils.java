@@ -1,5 +1,7 @@
 package com.x.vscam.global.utils;
 
+import com.x.vscam.detail.ImgDetailActivity;
+import com.x.vscam.detail.ImgDetailActivity_;
 import com.x.vscam.main.MainActivity_;
 import com.x.vscam.upload.ImgUploadActivity_;
 
@@ -19,6 +21,10 @@ public class StartUtils {
 
     public static void startUpload(Context context){
         context.startActivity(new Intent(context, ImgUploadActivity_.class));
+    }
+
+    public static void startImgDetail(Context context){
+        context.startActivity(new Intent(context, ImgDetailActivity_.class));
     }
 
     public static void startGalleryForResult(Activity context, int requestCode){
