@@ -1,5 +1,7 @@
 package com.x.vscam.detail;
 
+import com.orhanobut.logger.Logger;
+
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -12,21 +14,22 @@ import android.widget.ScrollView;
  * Created by wufeiyang on 2017/1/12.
  */
 
-public class ScaleScrollView extends ScrollView {
+public class ReboundScrollView extends ScrollView {
 
-    private static final short ANIMATION_TIME = 500;
+    private static final short ANIMATION_TIME = 300;
     private static final float MOVE_FACTOR = 0.5f;
 
     private View mContentView;
     private Rect mOrgContentRect = new Rect();
-    private boolean mCanPullUp, mCanPullDown, isContentMoved;
+    private boolean isContentMoved;
     private float mStartY;
+    private IOnReBound mIOnReBound;
 
-    public ScaleScrollView(Context context) {
+    public ReboundScrollView(Context context) {
         super(context);
     }
 
-    public ScaleScrollView(Context context, AttributeSet attrs) {
+    public ReboundScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -53,9 +56,8 @@ public class ScaleScrollView extends ScrollView {
             switch (ev.getAction()){
                 case MotionEvent.ACTION_DOWN:
                     mStartY = ev.getY();
-                    mCanPullUp = isCanPullUp();
-                    mCanPullDown = isCanPullDown();
                     break;
+
                 case MotionEvent.ACTION_UP:
                     if(!isContentMoved){
                         break;
@@ -68,29 +70,34 @@ public class ScaleScrollView extends ScrollView {
                     mContentView.layout(mOrgContentRect.left, mOrgContentRect.top
                             , mOrgContentRect.right, mOrgContentRect.bottom);
 
-                    mCanPullUp = false;
-                    mCanPullDown = false;
-                    isContentMoved =false;
+                    isContentMoved = false;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    if(!mCanPullUp && !mCanPullDown){
+                    Logger.d("getScrollY:  " + getScrollY() );
+
+                    boolean isShouldPullUp = isShouldPullUp(), isShouldPullDown = isShouldPullDown();
+
+                    if(!isShouldPullUp && !isShouldPullDown){
                         mStartY = ev.getY();
-                        mCanPullUp = isCanPullUp();
-                        mCanPullDown = isCanPullDown();
                         break;
                     }
 
                     float moveY = ev.getY() - mStartY;
-
-                    boolean shouldMove = (mCanPullDown && moveY >0)
-                            || (mCanPullUp && moveY < 0)
-                            || (mCanPullUp && mCanPullDown);
-
-                    if(shouldMove){
+                    if((isShouldPullUp && moveY < 0) || (isShouldPullDown && moveY > 0)){
                         int offset = (int) (moveY * MOVE_FACTOR);
                         mContentView.layout(mOrgContentRect.left, mOrgContentRect.top + offset
                                 , mOrgContentRect.right, mOrgContentRect.bottom + offset);
                         isContentMoved = true;
+
+                        if(null != mIOnReBound){
+                            if(isShouldPullUp && moveY < 0){
+                                mIOnReBound.onOverScrollTop(Math.abs(offset));
+                            }else if(isShouldPullDown && moveY > 0){
+                                mIOnReBound.onOverScrollBottom(Math.abs(offset));
+                            }
+                        }
+
+                        return true;
                     }
 
                     break;
@@ -101,12 +108,20 @@ public class ScaleScrollView extends ScrollView {
         return super.dispatchTouchEvent(ev);
     }
 
-    private boolean isCanPullUp(){
-        return getScrollY() == 0 ||
-                mContentView.getHeight() < getHeight() + getScrollY();
+    private boolean isShouldPullDown(){
+        return getScrollY() == 0;
     }
 
-    private boolean isCanPullDown(){
-        return  mContentView.getHeight() <= getHeight() + getScrollY();
+    private boolean isShouldPullUp(){
+        return  mContentView.getMeasuredHeight() == getHeight() + getScrollY();
+    }
+
+    public void setIOnReBound(IOnReBound IOnReBound) {
+        mIOnReBound = IOnReBound;
+    }
+
+    public interface IOnReBound{
+        void onOverScrollTop(int pix);
+        void onOverScrollBottom(int pix);
     }
 }

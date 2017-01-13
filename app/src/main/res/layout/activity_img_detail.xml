@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.x.vscam.detail.ScaleScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.x.vscam.detail.ReboundScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_img_detail"
+    android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.x.vscam.detail.ImgDetailActivity">
@@ -10,21 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:background="@color/colorAccent"/>
+            android:layout_height="320dp"
+            android:transitionName="@string/img_transition_name"/>
 
-        <FrameLayout
+        <com.x.vscam.detail.ImgDetailBoard_
+            android:id="@+id/img_detail_board"
             android:layout_width="match_parent"
-            android:layout_height="240dp"/>
+            android:layout_height="240dp"
+            android:background="@android:color/white" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/map"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:background="@color/colorAccent"/>
+            android:layout_height="240dp" />
     </LinearLayout>
 
-</com.x.vscam.detail.ScaleScrollView>
+</com.x.vscam.detail.ReboundScrollView>

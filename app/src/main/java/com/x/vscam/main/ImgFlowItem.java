@@ -6,11 +6,12 @@ import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.x.vscam.R;
-import com.x.vscam.global.Constans;
+import com.x.vscam.global.utils.ProcessDataUtils;
 import com.x.vscam.global.utils.StartUtils;
 
+import android.app.Activity;
 import android.content.Context;
-import android.text.TextUtils;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,23 +41,20 @@ public class ImgFlowItem extends RecyclerAdapter.Item<ImgFlowBean.GridsBean> {
     }
 
     @Override
-    public void onBindData(ImgFlowBean.GridsBean data, int postion) {
+    public void onBindData(final ImgFlowBean.GridsBean data, int postion) {
         ViewGroup.LayoutParams layoutParams = mImg.getLayoutParams();
         layoutParams.height = (int) ((LocalDisplay.SCREEN_WIDTH_PIXELS - 3 * mImgFlowSpacing) / 2.0f * data.getScale());
 
-        String imgUrl;
-        if(TextUtils.isEmpty(data.getWbpid())){
-            imgUrl = String.format(Constans.OG_IMG_URL_PRE, data.getOrigin());
-        }else {
-            imgUrl = String.format(Constans.WB_IMG_URL_PRE, data.getWbpid());
-        }
-        mImg.setImageURI(imgUrl);
+        mImg.setImageURI(ProcessDataUtils.getImgUrlS(data));
         mUserName.setText(data.getUserName());
 
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                StartUtils.startImgDetail(getContext());
+                StartUtils.startImgDetail(getContext()
+                        , data
+                        , ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) getContext(), mImg,
+                                getContext().getString(R.string.img_transition_name)));
             }
         });
     }

@@ -1,5 +1,7 @@
 package com.x.vscam.global.net;
 
+import com.x.vscam.detail.ImgDetailBean;
+import com.x.vscam.detail.MapBean;
 import com.x.vscam.main.ImgFlowBean;
 import com.x.vscam.upload.UploadResponseBean;
 
@@ -24,4 +26,9 @@ public interface ApiInterface {
     @POST("/x/?a=upload")
     Observable<UploadResponseBean> uploadImg(@Part("pp\"; filename=\"image.jpg") RequestBody imgs);
 
+    @GET("/x/?a=maps&size=800*300")
+    Observable<MapBean> getMap(@Query("gps") String gps);
+
+    @GET("/x/?a=p")
+    Observable<ImgDetailBean> getImgDetail(@Query("id") int id);
 }

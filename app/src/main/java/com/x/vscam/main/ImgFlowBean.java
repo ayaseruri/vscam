@@ -3,6 +3,9 @@ package com.x.vscam.main;
 import java.io.Serializable;
 import java.util.List;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by wufeiyang on 2017/1/12.
  */
@@ -28,7 +31,7 @@ public class ImgFlowBean implements Serializable{
         this.users = users;
     }
 
-    public static class GridsBean implements Serializable{
+    public static class GridsBean implements Serializable, Parcelable{
         /**
          * pid : 589
          * uid : 6
@@ -131,6 +134,53 @@ public class ImgFlowBean implements Serializable{
         public void setIos(String ios) {
             this.ios = ios;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.pid);
+            dest.writeInt(this.uid);
+            dest.writeString(this.origin);
+            dest.writeDouble(this.scale);
+            dest.writeString(this.wbpid);
+            dest.writeString(this.preset);
+            dest.writeInt(this.unix);
+            dest.writeString(this.aperture);
+            dest.writeString(this.ios);
+            dest.writeString(this.userName);
+        }
+
+        public GridsBean() {
+        }
+
+        protected GridsBean(Parcel in) {
+            this.pid = in.readInt();
+            this.uid = in.readInt();
+            this.origin = in.readString();
+            this.scale = in.readDouble();
+            this.wbpid = in.readString();
+            this.preset = in.readString();
+            this.unix = in.readInt();
+            this.aperture = in.readString();
+            this.ios = in.readString();
+            this.userName = in.readString();
+        }
+
+        public static final Creator<GridsBean> CREATOR = new Creator<GridsBean>() {
+            @Override
+            public GridsBean createFromParcel(Parcel source) {
+                return new GridsBean(source);
+            }
+
+            @Override
+            public GridsBean[] newArray(int size) {
+                return new GridsBean[size];
+            }
+        };
     }
 
     public static class UsersBean implements Serializable{
