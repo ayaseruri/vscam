@@ -1,4 +1,4 @@
-package com.x.vscam.detail;
+package com.x.vscam.imgdetail;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;

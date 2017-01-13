@@ -1,6 +1,6 @@
-package com.x.vscam.detail;
+package com.x.vscam.imgdetail;
 
-import com.x.vscam.main.ImgFlowBean;
+import com.x.vscam.global.bean.UserBean;
 
 /**
  * Created by wufeiyang on 2017/1/13.
@@ -36,7 +36,7 @@ public class ImgDetailBean {
     private String like;
     private String state;
     private int unix;
-    private ImgFlowBean.UsersBean user;
+    private UserBean user;
 
     public int getPid() {
         return pid;
@@ -134,11 +134,11 @@ public class ImgDetailBean {
         this.unix = unix;
     }
 
-    public ImgFlowBean.UsersBean getUser() {
+    public UserBean getUser() {
         return user;
     }
 
-    public void setUser(ImgFlowBean.UsersBean user) {
+    public void setUser(UserBean user) {
         this.user = user;
     }
 }

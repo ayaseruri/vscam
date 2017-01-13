@@ -14,7 +14,7 @@ import ykooze.ayaseruri.codesslib.ui.LocalDisplay;
  * Created by wufeiyang on 2017/1/12.
  */
 @EApplication
-public class MApplication  extends Application{
+public class MApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();

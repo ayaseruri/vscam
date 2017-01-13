@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
 import android.content.Context;
 import io.reactivex.ObservableEmitter;
@@ -28,7 +27,7 @@ public class SerializeUtils {
      * @throws RuntimeException if an error occurs
      */
 
-    public static Object deserializationSync(Context context, String tag, boolean delete) {
+    public static Object deserializationSync(final Context context, final String tag, final boolean delete) {
         try(FileInputStream fileInputStream = context.openFileInput(tag);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)){
             Object object = objectInputStream.readObject();
@@ -44,16 +43,6 @@ public class SerializeUtils {
         return null;
     }
 
-    public static <T extends Serializable> T deserializationSync(Context context
-            , Class<? extends T> className
-            , boolean delete) {
-        try {
-            return (T) deserializationSync(context, className.getName(), delete);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
     /**
      * 序列化对象到文件，默认异步
      *
@@ -83,10 +72,6 @@ public class SerializeUtils {
         });
     }
 
-    public static void serialization(Context context, final Object obj){
-        serialization(context, obj.getClass().getName(), obj);
-    }
-
     //同步序列化
     public static void serializationSync(Context context, final String tag, final Object obj) {
         if(null == obj){
@@ -99,13 +84,5 @@ public class SerializeUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void serializationSync(Context context, final Object obj) {
-        if(null == obj){
-            return;
-        }
-
-        serializationSync(context, obj.getClass().getName(), obj);
     }
 }

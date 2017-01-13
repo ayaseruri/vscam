@@ -31,7 +31,27 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ImgUpload" />
-        <activity android:name=".detail.ImgDetailActivity_"
+        <activity
+            android:name=".imgdetail.ImgDetailActivity_"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".settings.SettingsActivity_"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.LoginActivity_"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".imgviewer.ImgViewerActivity_"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.ImgViewer"/>
+        <activity android:name=".about.AboutActivity_"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".userdetail.UserDetailActivity_"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
     </application>

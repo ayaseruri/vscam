@@ -1,7 +1,9 @@
 package com.x.vscam.global.utils;
 
-import com.x.vscam.detail.ImgDetailActivity_;
 import com.x.vscam.global.Constans;
+import com.x.vscam.imgdetail.ImgDetailActivity_;
+import com.x.vscam.imgviewer.ImgViewerActivity_;
+import com.x.vscam.login.LoginActivity_;
 import com.x.vscam.main.ImgFlowBean;
 import com.x.vscam.main.MainActivity_;
 import com.x.vscam.upload.ImgUploadActivity_;
@@ -30,6 +32,16 @@ public class StartUtils {
     public static void startImgDetail(Context context, ImgFlowBean.GridsBean gridsBean, ActivityOptionsCompat options){
         Intent intent = new Intent(context, ImgDetailActivity_.class);
         intent.putExtra(Constans.KEY_GRID, (Parcelable) gridsBean);
+        ActivityCompat.startActivity(context, intent, options.toBundle());
+    }
+
+    public static void startLogin(Context context){
+        context.startActivity(new Intent(context, LoginActivity_.class));
+    }
+
+    public static void startImgViewer(Context context, String imgPath, ActivityOptionsCompat options){
+        Intent intent = new Intent(context, ImgViewerActivity_.class);
+        intent.putExtra(Constans.KEY_IMG_PATH, imgPath);
         ActivityCompat.startActivity(context, intent, options.toBundle());
     }
 

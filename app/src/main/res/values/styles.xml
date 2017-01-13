@@ -16,4 +16,8 @@
     <style name="AppTheme.ImgUpload">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+
+    <style name="AppTheme.ImgViewer">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
 </resources>

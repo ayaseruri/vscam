@@ -3,6 +3,8 @@ package com.x.vscam.main;
 import java.io.Serializable;
 import java.util.List;
 
+import com.x.vscam.global.bean.UserBean;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -13,7 +15,7 @@ import android.os.Parcelable;
 public class ImgFlowBean implements Serializable{
 
     private List<GridsBean> grids;
-    private List<UsersBean> users;
+    private List<UserBean> users;
 
     public List<GridsBean> getGrids() {
         return grids;
@@ -23,11 +25,11 @@ public class ImgFlowBean implements Serializable{
         this.grids = grids;
     }
 
-    public List<UsersBean> getUsers() {
+    public List<UserBean> getUsers() {
         return users;
     }
 
-    public void setUsers(List<UsersBean> users) {
+    public void setUsers(List<UserBean> users) {
         this.users = users;
     }
 
@@ -181,41 +183,5 @@ public class ImgFlowBean implements Serializable{
                 return new GridsBean[size];
             }
         };
-    }
-
-    public static class UsersBean implements Serializable{
-        /**
-         * uid : 6
-         * name : itorr
-         * avatar : 1
-         */
-
-        private int uid;
-        private String name;
-        private int avatar;
-
-        public int getUid() {
-            return uid;
-        }
-
-        public void setUid(int uid) {
-            this.uid = uid;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getAvatar() {
-            return avatar;
-        }
-
-        public void setAvatar(int avatar) {
-            this.avatar = avatar;
-        }
     }
 }

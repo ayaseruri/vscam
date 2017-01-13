@@ -1,6 +1,7 @@
 package com.x.vscam.global.utils;
 
 import com.x.vscam.global.Constans;
+import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.main.ImgFlowBean;
 
 import android.text.TextUtils;
@@ -12,7 +13,7 @@ import android.text.TextUtils;
 public class ProcessDataUtils {
     public static ImgFlowBean addUserInfo(ImgFlowBean data){
         for(ImgFlowBean.GridsBean gridsBean : data.getGrids()){
-            for (ImgFlowBean.UsersBean usersBean : data.getUsers()){
+            for (UserBean usersBean : data.getUsers()){
                 if(gridsBean.getUid() == usersBean.getUid()){
                     gridsBean.setUserName(usersBean.getName());
                     break;

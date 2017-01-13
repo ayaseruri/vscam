@@ -49,7 +49,7 @@ public class RxUtils {
         };
     }
 
-    public static <T> ObservableTransformer<T, T> applyCache(final Context context){
+    public static <T> ObservableTransformer<T, T> applyCache(final Context context, final String tag){
         return new ObservableTransformer<T, T>() {
             @Override
             public ObservableSource<T> apply(io.reactivex.Observable<T> upstream) {
@@ -58,7 +58,7 @@ public class RxUtils {
                         .map(new Function<T, T>() {
                             @Override
                             public T apply(T t) throws Exception {
-                                SerializeUtils.serializationSync(context, t.getClass().getName(), t);
+                                SerializeUtils.serializationSync(context, tag, t);
                                 return t;
                             }
                         });
@@ -68,7 +68,7 @@ public class RxUtils {
 
     public static <T extends Serializable> ObservableTransformer<T, T> useCache(
             final Context context
-            , final Class<? super T> t
+            , final String tag
             , final boolean delete){
         return new ObservableTransformer<T, T>() {
             @Override
@@ -77,7 +77,7 @@ public class RxUtils {
                         new ObservableOnSubscribe<T>() {
                             @Override
                             public void subscribe(ObservableEmitter<T> e) throws Exception {
-                                Object object = SerializeUtils.deserializationSync(context, t.getClass().getName(),
+                                Object object = SerializeUtils.deserializationSync(context, tag,
                                         delete);
                                 e.onNext((T) object);
                                 e.onComplete();

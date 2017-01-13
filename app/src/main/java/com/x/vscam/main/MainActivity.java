@@ -29,6 +29,7 @@ import ykooze.ayaseruri.codesslib.ui.GridSpacingItemDecoration;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
 
+    private static final String TAG = "main";
     private static final short SPAN_COUNT = 2;
     private static final short PAGE_SIZE = 20;
 
@@ -58,16 +59,14 @@ public class MainActivity extends BaseActivity {
         mRecyclerView.init(new CommonRecyclerView.ICommonRecyclerView<ImgFlowBean.GridsBean>() {
             @Override
             public List<ImgFlowBean.GridsBean> getFirstInData() throws Exception {
-                ImgFlowBean imgFlowBean = SerializeUtils.deserializationSync(MainActivity.this, ImgFlowBean
-                        .class, true);
-                return null == imgFlowBean ? null : imgFlowBean.getGrids();
+                return  (List<ImgFlowBean.GridsBean>) SerializeUtils.deserializationSync(MainActivity.this, TAG, true);
             }
 
             @Override
             public List<ImgFlowBean.GridsBean> getRefreshData() throws Exception {
                 ImgFlowBean data = mApiInterface.getImgFlow(0).execute().body();
                 data = ProcessDataUtils.addUserInfo(data);
-                SerializeUtils.serializationSync(MainActivity.this, data.getGrids());
+                SerializeUtils.serializationSync(MainActivity.this, TAG, data.getGrids());
                 return data.getGrids();
             }
 
@@ -127,6 +126,11 @@ public class MainActivity extends BaseActivity {
         });
 
         mRecyclerView.refreshData();
+    }
+
+    @Click(R.id.avatar)
+    void onAvatar(){
+        StartUtils.startLogin(this);
     }
 
     @Click(R.id.fab)

@@ -1,4 +1,4 @@
-package com.x.vscam.detail;
+package com.x.vscam.imgdetail;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,8 +19,11 @@ import com.x.vscam.global.net.ApiIml;
 import com.x.vscam.global.net.ApiInterface;
 import com.x.vscam.global.ui.BaseActivity;
 import com.x.vscam.global.utils.ProcessDataUtils;
+import com.x.vscam.global.utils.StartUtils;
 import com.x.vscam.main.ImgFlowBean;
 
+import android.support.v4.app.ActivityOptionsCompat;
+import android.view.View;
 import android.view.Window;
 import io.reactivex.ObservableSource;
 import io.reactivex.functions.Consumer;
@@ -44,7 +47,8 @@ public class ImgDetailActivity extends BaseActivity {
 
     @AfterViews
     void init(){
-        initFrescoShareElement();
+       initFrescoShareElement();
+
         ImgFlowBean.GridsBean gridsBean = getIntent().getParcelableExtra(Constans.KEY_GRID);
         if(null != gridsBean){
             init(gridsBean);
@@ -73,8 +77,17 @@ public class ImgDetailActivity extends BaseActivity {
                         , ScalingUtils.ScaleType.CENTER_CROP));
     }
 
-    private void init(ImgFlowBean.GridsBean gridsBean){
+    private void init(final ImgFlowBean.GridsBean gridsBean){
         mImg.setImageURI(ProcessDataUtils.getImgUrlS(gridsBean));
+        mImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StartUtils.startImgViewer(ImgDetailActivity.this, ProcessDataUtils.getImgUrlS(gridsBean),
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(ImgDetailActivity.this, mImg,
+                                getString(R.string.img_transition_name)));
+            }
+        });
+
         mDetailBoard.setUserName(gridsBean.getUserName());
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日", Locale.SIMPLIFIED_CHINESE);

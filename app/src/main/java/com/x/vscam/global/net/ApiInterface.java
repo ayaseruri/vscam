@@ -1,7 +1,8 @@
 package com.x.vscam.global.net;
 
-import com.x.vscam.detail.ImgDetailBean;
-import com.x.vscam.detail.MapBean;
+import com.x.vscam.imgdetail.ImgDetailBean;
+import com.x.vscam.imgdetail.MapBean;
+import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.main.ImgFlowBean;
 import com.x.vscam.upload.UploadResponseBean;
 
@@ -31,4 +32,7 @@ public interface ApiInterface {
 
     @GET("/x/?a=p")
     Observable<ImgDetailBean> getImgDetail(@Query("id") int id);
+
+    @POST("/x/?a=u")
+    Observable<UserBean> login(@Query("id") String id, @Query("password") String pass);
 }

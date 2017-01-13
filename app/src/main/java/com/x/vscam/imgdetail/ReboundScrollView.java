@@ -1,4 +1,4 @@
-package com.x.vscam.detail;
+package com.x.vscam.imgdetail;
 
 import com.orhanobut.logger.Logger;
 

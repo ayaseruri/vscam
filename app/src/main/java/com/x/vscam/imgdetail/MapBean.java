@@ -1,4 +1,4 @@
-package com.x.vscam.detail;
+package com.x.vscam.imgdetail;
 
 /**
  * Created by wufeiyang on 2017/1/13.

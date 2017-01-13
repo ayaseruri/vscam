@@ -1,31 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.x.vscam.detail.ReboundScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scroll"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.x.vscam.detail.ImgDetailActivity">
-    <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.x.vscam.imgdetail.ImgDetailActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="?attr/actionBarSize"
+        app:contentInsetStart="0dp" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/img"
+    <com.x.vscam.imgdetail.ReboundScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="320dp"
-            android:transitionName="@string/img_transition_name"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <com.x.vscam.detail.ImgDetailBoard_
-            android:id="@+id/img_detail_board"
-            android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:background="@android:color/white" />
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/img_detail_img_height"
+                android:transitionName="@string/img_transition_name"
+                app:actualImageScaleType="centerCrop"/>
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="240dp" />
-    </LinearLayout>
+            <com.x.vscam.imgdetail.ImgDetailBoard_
+                android:id="@+id/img_detail_board"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/img_detail_map_height"
+                android:background="@android:color/white" />
 
-</com.x.vscam.detail.ReboundScrollView>
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/img_detail_map_height" />
+        </LinearLayout>
+    </com.x.vscam.imgdetail.ReboundScrollView>
+</merge>
+
