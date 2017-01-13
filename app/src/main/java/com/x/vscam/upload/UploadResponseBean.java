@@ -48,6 +48,15 @@ public class UploadResponseBean {
     private int unix;
     private String exif;
     private int pid;
+    private String error;
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 
     public String getUid() {
         return uid;

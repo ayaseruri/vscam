@@ -51,7 +51,7 @@ public class ImgFlowItem extends RecyclerAdapter.Item<ImgFlowBean.GridsBean> {
             imgUrl = String.format(Constans.WB_IMG_URL_PRE, data.getWbpid());
         }
         mImg.setImageURI(imgUrl);
-        mUserName.setText(null == data.getUsersBean() ? "" : data.getUsersBean().getName());
+        mUserName.setText(data.getUserName());
 
         setOnClickListener(new OnClickListener() {
             @Override

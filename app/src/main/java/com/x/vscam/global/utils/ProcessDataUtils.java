@@ -8,13 +8,12 @@ import com.x.vscam.main.ImgFlowBean;
 
 public class ProcessDataUtils {
     public static ImgFlowBean addUserInfo(ImgFlowBean data){
-        int gridsCount = data.getGrids().size();
-        int userCount = data.getUsers().size();
-        for(int i = 0; i < gridsCount; i++){
-            if(i < userCount){
-                data.getGrids().get(i).setUsersBean(data.getUsers().get(i));
-            }else {
-                break;
+        for(ImgFlowBean.GridsBean gridsBean : data.getGrids()){
+            for (ImgFlowBean.UsersBean usersBean : data.getUsers()){
+                if(gridsBean.getUid() == usersBean.getUid()){
+                    gridsBean.setUserName(usersBean.getName());
+                    break;
+                }
             }
         }
 

@@ -50,14 +50,14 @@ public class ImgFlowBean implements Serializable{
         private int unix;
         private String aperture;
         private String ios;
-        private UsersBean usersBean;
+        private String userName;
 
-        public UsersBean getUsersBean() {
-            return usersBean;
+        public String getUserName() {
+            return userName;
         }
 
-        public void setUsersBean(UsersBean usersBean) {
-            this.usersBean = usersBean;
+        public void setUserName(String userName) {
+            this.userName = userName;
         }
 
         public int getPid() {
