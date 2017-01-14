@@ -9,6 +9,8 @@ import com.x.vscam.upload.UploadResponseBean;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -33,6 +35,7 @@ public interface ApiInterface {
     @GET("/x/?a=p")
     Observable<ImgDetailBean> getImgDetail(@Query("id") int id);
 
+    @FormUrlEncoded
     @POST("/x/?a=u")
-    Observable<UserBean> login(@Query("id") String id, @Query("password") String pass);
+    Observable<UserBean> login(@Field("id") String id, @Field("password") String pass);
 }

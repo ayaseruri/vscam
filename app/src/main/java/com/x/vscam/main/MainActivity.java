@@ -8,18 +8,28 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.RoundingParams;
+import com.facebook.drawee.view.DraweeTransition;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.x.vscam.R;
 import com.x.vscam.global.net.ApiIml;
 import com.x.vscam.global.net.ApiInterface;
 import com.x.vscam.global.ui.BaseActivity;
 import com.x.vscam.global.utils.ProcessDataUtils;
 import com.x.vscam.global.utils.StartUtils;
+import com.x.vscam.global.utils.UserInfoUtils;
 
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+
 import ykooze.ayaseruri.codesslib.adapter.RecyclerAdapter;
 import ykooze.ayaseruri.codesslib.io.SerializeUtils;
 import ykooze.ayaseruri.codesslib.others.ServerException;
@@ -39,14 +49,33 @@ public class MainActivity extends BaseActivity {
     CommonRecyclerView mRecyclerView;
     @ViewById(R.id.refresh)
     SwipeRefreshLayout mRefreshLayout;
+    @ViewById(R.id.avatar)
+    SimpleDraweeView mAvatar;
     @DimensionPixelSizeRes(R.dimen.img_flow_spacing)
     int mImgFlowSpacing;
 
     private ApiInterface mApiInterface;
     private int mLastUnix;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GenericDraweeHierarchy hierarchy = mAvatar.getHierarchy();
+        if(UserInfoUtils.isLogin(this)){
+            hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
+            hierarchy.setRoundingParams(RoundingParams.asCircle().setRoundAsCircle(true));
+            mAvatar.setImageURI(ProcessDataUtils.getAvatar(UserInfoUtils.getUserInfo(this).getUid()));
+        }else {
+            hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
+            hierarchy.setRoundingParams(RoundingParams.asCircle().setRoundAsCircle(false));
+            mAvatar.setImageURI(Uri.parse("res:///" + R.mipmap.ic_login));
+        }
+    }
+
     @AfterViews
     void init(){
+        initFrescoShareElement();
+
         mApiInterface = ApiIml.getInstance(MainActivity.this);
 
         mRecyclerView.setPreLoadPadding(0);
@@ -130,11 +159,33 @@ public class MainActivity extends BaseActivity {
 
     @Click(R.id.avatar)
     void onAvatar(){
-        StartUtils.startLogin(this);
+        if(UserInfoUtils.isLogin(this)){
+
+        }else {
+            StartUtils.startLogin(this
+                    , ActivityOptionsCompat.makeSceneTransitionAnimation(this
+                            , mAvatar, getString(R.string.avatar_transition_name)));
+        }
     }
 
     @Click(R.id.fab)
     void onFab(){
-        StartUtils.startUpload(this);
+        if(UserInfoUtils.isLogin(this)){
+            StartUtils.startUpload(this);
+        }else {
+            StartUtils.startLogin(this
+                    , ActivityOptionsCompat.makeSceneTransitionAnimation(this
+                            , mAvatar, getString(R.string.avatar_transition_name)));
+        }
+    }
+
+    private void initFrescoShareElement(){
+        Window window = getWindow();
+        window.setSharedElementEnterTransition(
+                DraweeTransition.createTransitionSet(ScalingUtils.ScaleType.CENTER_CROP
+                        , ScalingUtils.ScaleType.CENTER_CROP));
+        window.setSharedElementReturnTransition(
+                DraweeTransition.createTransitionSet(ScalingUtils.ScaleType.CENTER_CROP
+                        , ScalingUtils.ScaleType.CENTER_CROP));
     }
 }

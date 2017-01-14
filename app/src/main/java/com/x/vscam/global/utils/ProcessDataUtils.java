@@ -33,4 +33,8 @@ public class ProcessDataUtils {
         }
         return imgUrl;
     }
+
+    public static String getAvatar(int uid){
+        return "http://vscam.co/avatar/b/" + uid + ".jpg";
+    }
 }

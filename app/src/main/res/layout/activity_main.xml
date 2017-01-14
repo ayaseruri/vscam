@@ -12,32 +12,44 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <android.support.v7.widget.Toolbar
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:contentInsetStart="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|snap|enterAlways">
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/avatar"
-                    android:layout_width="?attr/actionBarSize"
-                    android:layout_height="?attr/actionBarSize"
-                    android:padding="6dp"/>
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:transitionName="@string/avatar_transition_name"
+                android:layout_margin="8dp"
+                app:roundingBorderColor="@color/colorPrimary" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:src="@drawable/ic_vs"
                     android:layout_gravity="center"/>
 
-                <ImageView
-                    android:id="@+id/settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="12dp"/>
-            </FrameLayout>
-        </android.support.v7.widget.Toolbar>
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    app:placeholderImage="@drawable/ic_logo"
+                    android:transitionName="@string/logo_transition_name"/>
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"/>
+        </FrameLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -47,7 +59,8 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_end_margin"
         android:layout_marginBottom="@dimen/fab_bottom_margin"
+        android:src="@drawable/ic_new"
         app:fabSize="normal"
-        app:backgroundTint="@android:color/white"
+        app:backgroundTint="@color/colorPrimary"
         app:layout_behavior="com.x.vscam.main.FabBehavior"/>
 </android.support.design.widget.CoordinatorLayout>

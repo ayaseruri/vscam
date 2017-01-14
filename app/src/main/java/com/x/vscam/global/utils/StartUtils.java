@@ -21,8 +21,8 @@ import android.support.v4.app.ActivityOptionsCompat;
  */
 
 public class StartUtils {
-    public static void startMain(Context context){
-        context.startActivity(new Intent(context, MainActivity_.class));
+    public static void startMain(Context context, ActivityOptionsCompat options){
+        ActivityCompat.startActivity(context, new Intent(context, MainActivity_.class), options.toBundle());
     }
 
     public static void startUpload(Context context){
@@ -35,8 +35,8 @@ public class StartUtils {
         ActivityCompat.startActivity(context, intent, options.toBundle());
     }
 
-    public static void startLogin(Context context){
-        context.startActivity(new Intent(context, LoginActivity_.class));
+    public static void startLogin(Context context, ActivityOptionsCompat options){
+        ActivityCompat.startActivity(context, new Intent(context, LoginActivity_.class), options.toBundle());
     }
 
     public static void startImgViewer(Context context, String imgPath, ActivityOptionsCompat options){

@@ -23,7 +23,9 @@ public class MApplication extends Application{
 
         if(!Fresco.hasBeenInitialized()){
             ImagePipelineConfig config = OkHttp3ImagePipelineConfigFactory
-                    .newBuilder(this, ApiIml.getOkHttpClient(this)).build();
+                    .newBuilder(this, ApiIml.getOkHttpClient(this))
+                    .setDownsampleEnabled(true)
+                    .build();
             Fresco.initialize(this, config);
         }
     }

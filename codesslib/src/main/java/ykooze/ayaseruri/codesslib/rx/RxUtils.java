@@ -1,6 +1,7 @@
 package ykooze.ayaseruri.codesslib.rx;
 
 import java.io.Serializable;
+import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -10,6 +11,7 @@ import org.reactivestreams.Publisher;
 import android.content.Context;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
+import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
@@ -73,18 +75,25 @@ public class RxUtils {
         return new ObservableTransformer<T, T>() {
             @Override
             public ObservableSource<T> apply(io.reactivex.Observable<T> upstream) {
-                return io.reactivex.Observable.concat(io.reactivex.Observable.create(
-                        new ObservableOnSubscribe<T>() {
+                return io.reactivex.Observable.concat(
+                        Observable.defer(new Callable<ObservableSource<? extends T>>() {
                             @Override
-                            public void subscribe(ObservableEmitter<T> e) throws Exception {
-                                Object object = SerializeUtils.deserializationSync(context, tag,
+                            public ObservableSource<? extends T> call() throws Exception {
+                                final Object object = SerializeUtils.deserializationSync(context, tag,
                                         delete);
-                                e.onNext((T) object);
-                                e.onComplete();
+                                return null == object ? Observable.<T>empty() : Observable.create(
+                                        new ObservableOnSubscribe<T>() {
+                                            @Override
+                                            public void subscribe(ObservableEmitter<T> e) throws Exception {
+
+                                                e.onNext((T) object);
+                                                e.onComplete();
+                                            }
+                                        })
+                                        .subscribeOn(getSchedulers())
+                                        .unsubscribeOn(getSchedulers());
                             }
                         })
-                        .subscribeOn(getSchedulers())
-                        .unsubscribeOn(getSchedulers())
                         , upstream);
             }
         };

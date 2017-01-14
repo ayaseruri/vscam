@@ -7,4 +7,6 @@
     <dimen name="fab_end_margin">8dp</dimen>
     <dimen name="img_detail_img_height">320dp</dimen>
     <dimen name="img_detail_map_height">240dp</dimen>
+
+    <dimen name="edit_text_padding">4dp</dimen>
 </resources>

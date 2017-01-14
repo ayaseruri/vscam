@@ -4,10 +4,12 @@
     <string name="net_error">网络开了一个小差</string>
     <string name="already_end">已经到底啦</string>
 
-    <color name="red_btn_bg_color">@android:color/black</color>
-    <color name="red_btn_bg_pressed_color">@android:color/black</color>
-    <color name="warning_stroke_color">@android:color/black</color>
-    <color name="gray_btn_bg_color">@android:color/darker_gray</color>
+    <color name="red_btn_bg_color">@color/colorAccent</color>
+    <color name="red_btn_bg_pressed_color">@color/colorAccent</color>
+    <color name="warning_stroke_color">@color/colorAccent</color>
+    <color name="gray_btn_bg_color">@color/colorPrimaryDark</color>
 
     <string name="img_transition_name">img_transition</string>
+    <string name="logo_transition_name">logo_transition</string>
+    <string name="avatar_transition_name">avatar_transition</string>
 </resources>
