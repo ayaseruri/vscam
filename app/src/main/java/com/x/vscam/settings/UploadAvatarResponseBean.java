@@ -1,0 +1,21 @@
+package com.x.vscam.settings;
+
+/**
+ * Created by wufeiyang on 2017/1/15.
+ */
+
+public class UploadAvatarResponseBean {
+    /**
+     * uid : 111
+     */
+
+    private int uid;
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+}

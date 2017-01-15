@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
+import okhttp3.CookieJar;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okio.Buffer;
@@ -25,6 +26,7 @@ public class OkHttpBuilder {
     private volatile static OkHttpClient sOkHttpClient;
     private volatile static List<Interceptor> sInterceptors;
     private static HttpsManager.SSLParams sSLParams;
+    private static CookieJar sCookieJar;
 
     private long mReadTimeout = 20000, mWriteTimeout = 20000, mConnectTimeout = 15000, mCacheSize = -1;
 
@@ -76,6 +78,11 @@ public class OkHttpBuilder {
         return this;
     }
 
+    public OkHttpBuilder withCookie(CookieJar cookieJar){
+        sCookieJar = cookieJar;
+        return this;
+    }
+
     public OkHttpClient getClient(Context context){
         if(null == sOkHttpClient){
             synchronized (OkHttpBuilder.class){
@@ -105,6 +112,10 @@ public class OkHttpBuilder {
 
                     if(null != sSLParams){
                         builder.sslSocketFactory(sSLParams.sSLSocketFactory, sSLParams.trustManager);
+                    }
+
+                    if(null != sCookieJar){
+                        builder.cookieJar(sCookieJar);
                     }
 
                     sOkHttpClient = builder.build();

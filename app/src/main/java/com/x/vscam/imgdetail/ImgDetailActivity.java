@@ -88,12 +88,14 @@ public class ImgDetailActivity extends BaseActivity {
             }
         });
 
-        mDetailBoard.setUserName(gridsBean.getUserName());
-
         SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日", Locale.SIMPLIFIED_CHINESE);
-        mDetailBoard.setTime(sdf.format(new Date(gridsBean.getUnix())));
 
+        mDetailBoard.setUserName(gridsBean.getUserName());
+        mDetailBoard.setTime(sdf.format(new Date(gridsBean.getUnix())));
         mDetailBoard.setAperture(gridsBean.getAperture());
+        mDetailBoard.setFliterName(gridsBean.getPreset());
+        mDetailBoard.setDescription(gridsBean.getText());
+        mDetailBoard.setios(gridsBean.getIso());
 
         final ApiInterface api = ApiIml.getInstance(this);
         api.getImgDetail(gridsBean.getPid())

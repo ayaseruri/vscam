@@ -28,13 +28,14 @@
             <com.x.vscam.imgdetail.ImgDetailBoard_
                 android:id="@+id/img_detail_board"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/img_detail_map_height"
+                android:layout_height="wrap_content"
                 android:background="@android:color/white" />
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/map"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/img_detail_map_height" />
+                android:layout_height="@dimen/img_detail_map_height"
+                app:backgroundImage="@color/colorPrimary"/>
         </LinearLayout>
     </com.x.vscam.imgdetail.ReboundScrollView>
 </merge>

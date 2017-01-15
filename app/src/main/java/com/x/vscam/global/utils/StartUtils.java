@@ -1,11 +1,14 @@
 package com.x.vscam.global.utils;
 
+import com.x.vscam.about.AboutActivity_;
 import com.x.vscam.global.Constans;
 import com.x.vscam.imgdetail.ImgDetailActivity_;
 import com.x.vscam.imgviewer.ImgViewerActivity_;
 import com.x.vscam.login.LoginActivity_;
 import com.x.vscam.main.ImgFlowBean;
 import com.x.vscam.main.MainActivity_;
+import com.x.vscam.settings.SettingsActivity;
+import com.x.vscam.settings.SettingsActivity_;
 import com.x.vscam.upload.ImgUploadActivity_;
 
 import android.app.Activity;
@@ -45,8 +48,11 @@ public class StartUtils {
         ActivityCompat.startActivity(context, intent, options.toBundle());
     }
 
-    public static void startGalleryForResult(Activity context, int requestCode){
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        context.startActivityForResult(intent, requestCode);
+    public static void startAbout(Context context){
+        context.startActivity(new Intent(context, AboutActivity_.class));
+    }
+
+    public static void startSettings(Context context){
+        context.startActivity(new Intent(context, SettingsActivity_.class));
     }
 }

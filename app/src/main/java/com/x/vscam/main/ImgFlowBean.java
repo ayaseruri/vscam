@@ -3,6 +3,7 @@ package com.x.vscam.main;
 import java.io.Serializable;
 import java.util.List;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.x.vscam.global.bean.UserBean;
 
 import android.os.Parcel;
@@ -54,8 +55,17 @@ public class ImgFlowBean implements Serializable{
         private String preset;
         private int unix;
         private String aperture;
-        private String ios;
+        private String iso;
         private String userName;
+        private String text;
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
 
         public String getUserName() {
             return userName;
@@ -129,13 +139,14 @@ public class ImgFlowBean implements Serializable{
             this.aperture = aperture;
         }
 
-        public String getIos() {
-            return ios;
+        public String getIso() {
+            return iso;
         }
 
-        public void setIos(String ios) {
-            this.ios = ios;
+        public void setIso(String ios) {
+            this.iso = ios;
         }
+
 
         @Override
         public int describeContents() {
@@ -152,8 +163,9 @@ public class ImgFlowBean implements Serializable{
             dest.writeString(this.preset);
             dest.writeInt(this.unix);
             dest.writeString(this.aperture);
-            dest.writeString(this.ios);
+            dest.writeString(this.iso);
             dest.writeString(this.userName);
+            dest.writeString(this.text);
         }
 
         public GridsBean() {
@@ -168,8 +180,9 @@ public class ImgFlowBean implements Serializable{
             this.preset = in.readString();
             this.unix = in.readInt();
             this.aperture = in.readString();
-            this.ios = in.readString();
+            this.iso = in.readString();
             this.userName = in.readString();
+            this.text = in.readString();
         }
 
         public static final Creator<GridsBean> CREATOR = new Creator<GridsBean>() {

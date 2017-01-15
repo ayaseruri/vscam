@@ -15,6 +15,7 @@ import com.x.vscam.R;
 import com.x.vscam.global.Constans;
 import com.x.vscam.global.net.ApiIml;
 import com.x.vscam.global.ui.BaseActivity;
+import com.x.vscam.global.utils.ImgUploadUtils;
 import com.x.vscam.global.utils.StartUtils;
 
 import android.Manifest;
@@ -54,18 +55,7 @@ public class ImgUploadActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .compose(RxUtils.<Boolean>applySchedulers())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean ok) throws Exception {
-                        if(ok){
-                            StartUtils.startGalleryForResult(ImgUploadActivity.this, OPEN_GALLERY_REQUEST);
-                        }else {
-                            showPermissionDialog();
-                        }
-                    }
-                });
+        ImgUploadUtils.openGalleryForResult(this, OPEN_GALLERY_REQUEST);
     }
 
     private synchronized void initView(){
@@ -142,27 +132,5 @@ public class ImgUploadActivity extends BaseActivity {
     void setProgressBarProgress(int progress){
         Logger.d("progress:  " + progress);
         mProgressBar.setProgress(progress);
-    }
-
-    private void showPermissionDialog(){
-        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
-        dialog.setTitleText("需要权限");
-        dialog.setContentText("需要\"存储\"权限来打开您的照片");
-        dialog.showCancelButton(true);
-        dialog.setCancelText("拒绝");
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                finish();
-            }
-        });
-        dialog.setConfirmText("设置");
-        dialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                Utils.startAppSettings(ImgUploadActivity.this);
-            }
-        });
-        dialog.show();
     }
 }

@@ -11,7 +11,7 @@ public class UploadResponseBean {
      * scale : 0.66666666666667
      * origin : 76afa645d4e50ee051836c31a5973265
      * aperture : 2.4
-     * iso : 50
+     * ios : 50
      * gps : 123.34893,41.6395
      * unix : 1484213867
      * exif :{"COMPUTED":{"html":"width=\"3264\" height=\"2176\"","Height":2176,"Width":3264,"IsColor":1,
@@ -22,7 +22,7 @@ public class UploadResponseBean {
      * "ResolutionUnit":2,"Software":"VSCOcam","DateTime":"2015:02:15 02:14:15","HostComputer":"iPhone 5c",
      * "YCbCrPositioning":1,"Copyright":"Copyright 2015. All rights reserved.","Exif_IFD_Pointer":328,
      * "GPS_IFD_Pointer":1186},"EXIF":{"ExposureTime":"1\/20","FNumber":"12\/5","ExposureProgram":2,
-     * "ISOSpeedRatings":50,"ExifVersion":"0221","DateTimeOriginal":"2015:02:15 02:14:15",
+     * "iosSpeedRatings":50,"ExifVersion":"0221","DateTimeOriginal":"2015:02:15 02:14:15",
      * "DateTimeDigitized":"2015:02:15 02:14:15","ComponentsConfiguration":"\u0001\u0002\u0003\u0000",
      * "ShutterSpeedValue":"3799\/879","ApertureValue":"4845\/1918","BrightnessValue":"3182\/859",
      * "ExposureBiasValue":"0\/1","MeteringMode":5,"Flash":16,"FocalLength":"103\/25","SubjectLocation":[1631,1223,
@@ -43,7 +43,7 @@ public class UploadResponseBean {
     private double scale;
     private String origin;
     private double aperture;
-    private int iso;
+    private int ios;
     private String gps;
     private int unix;
     private String exif;
@@ -90,12 +90,12 @@ public class UploadResponseBean {
         this.aperture = aperture;
     }
 
-    public int getIso() {
-        return iso;
+    public int getios() {
+        return ios;
     }
 
-    public void setIso(int iso) {
-        this.iso = iso;
+    public void setios(int ios) {
+        this.ios = ios;
     }
 
     public String getGps() {

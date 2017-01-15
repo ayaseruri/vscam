@@ -20,6 +20,10 @@
         <item name="android:windowBackground">@android:color/black</item>
     </style>
 
+    <style name="AppTheme.LightProgress">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
     <style name="EditText" parent="Widget.AppCompat.EditText">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#FF878787</item>

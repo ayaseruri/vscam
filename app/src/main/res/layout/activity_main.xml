@@ -48,6 +48,8 @@
                 android:id="@+id/settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_settings"
+                android:layout_gravity="end|center_vertical"
                 android:padding="12dp"/>
         </FrameLayout>
     </android.support.design.widget.AppBarLayout>

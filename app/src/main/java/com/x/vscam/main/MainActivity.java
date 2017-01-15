@@ -41,7 +41,8 @@ public class MainActivity extends BaseActivity {
 
     private static final String TAG = "main";
     private static final short SPAN_COUNT = 2;
-    private static final short PAGE_SIZE = 20;
+    private static final short PAGE_SIZE = 30;
+    private static final short PRE_LOADING_PADDING = 20;//小于PAGE_SIZE的任意一个值
 
     @ViewById(R.id.activity_main)
     View mRoot;
@@ -78,7 +79,7 @@ public class MainActivity extends BaseActivity {
 
         mApiInterface = ApiIml.getInstance(MainActivity.this);
 
-        mRecyclerView.setPreLoadPadding(0);
+        mRecyclerView.setPreLoadPadding(PRE_LOADING_PADDING);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(SPAN_COUNT
                 , mImgFlowSpacing
@@ -166,6 +167,11 @@ public class MainActivity extends BaseActivity {
                     , ActivityOptionsCompat.makeSceneTransitionAnimation(this
                             , mAvatar, getString(R.string.avatar_transition_name)));
         }
+    }
+
+    @Click(R.id.settings)
+    void onSettings(){
+        StartUtils.startSettings(this);
     }
 
     @Click(R.id.fab)

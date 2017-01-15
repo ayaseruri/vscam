@@ -37,7 +37,9 @@ public class ApiIml {
         if(null == sOkHttpClient){
             synchronized(ApiIml.class){
                 if(null == sOkHttpClient){
-                    sOkHttpClient = new OkHttpBuilder().withDefalutCache().getClient(context);
+                    sOkHttpClient = new OkHttpBuilder()
+                            .withCookie(new CookiesManager(context))
+                            .withDefalutCache().getClient(context);
                 }
             }
         }

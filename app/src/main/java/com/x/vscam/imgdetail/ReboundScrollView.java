@@ -73,8 +73,6 @@ public class ReboundScrollView extends ScrollView {
                     isContentMoved = false;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    Logger.d("getScrollY:  " + getScrollY() );
-
                     boolean isShouldPullUp = isShouldPullUp(), isShouldPullDown = isShouldPullDown();
 
                     if(!isShouldPullUp && !isShouldPullDown){

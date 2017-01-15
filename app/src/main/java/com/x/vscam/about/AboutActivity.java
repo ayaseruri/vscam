@@ -26,7 +26,6 @@ public class AboutActivity extends BaseActivity {
                 .addItem(versionElement)
                 .addEmail("ayaseruri@foxmail.com")
                 .addWebsite("http://vscam.co/")
-                .addWebsite("http://ayaseruri.net")
                 .addPlayStore("com.x.vscam")
                 .addGitHub("vscam")
                 .create());

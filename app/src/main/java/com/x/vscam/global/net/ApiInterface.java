@@ -4,6 +4,7 @@ import com.x.vscam.imgdetail.ImgDetailBean;
 import com.x.vscam.imgdetail.MapBean;
 import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.main.ImgFlowBean;
+import com.x.vscam.settings.UploadAvatarResponseBean;
 import com.x.vscam.upload.UploadResponseBean;
 
 import io.reactivex.Observable;
@@ -29,6 +30,10 @@ public interface ApiInterface {
     @POST("/x/?a=upload")
     Observable<UploadResponseBean> uploadImg(@Part("pp\"; filename=\"image.jpg") RequestBody imgs);
 
+    @Multipart
+    @POST("/x/?a=avatar")
+    Observable<UploadAvatarResponseBean> uploadAvatar(@Part("avatar\"; filename=\"image.jpg") RequestBody imgs);
+
     @GET("/x/?a=maps&size=800*300")
     Observable<MapBean> getMap(@Query("gps") String gps);
 
@@ -38,4 +43,8 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("/x/?a=u")
     Observable<UserBean> login(@Field("id") String id, @Field("password") String pass);
+
+    @FormUrlEncoded
+    @POST("/x/?a=u")
+    Observable<UserBean> editInfo(@Field("des") String des, @Field("url") String url);
 }
