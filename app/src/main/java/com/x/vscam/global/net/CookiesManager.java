@@ -1,13 +1,10 @@
 package com.x.vscam.global.net;
 
-import android.content.Context;
-
-import org.androidannotations.annotations.Click;
-
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import android.content.Context;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
@@ -27,16 +24,28 @@ public class CookiesManager implements CookieJar {
 
     @Override
     public void saveFromResponse(HttpUrl url, final List<Cookie> cookies) {
-        CacheUtils.putDisk(mContext, url.host(), new ArrayList<Cookie>(cookies.size()){
-            {
-                addAll(cookies);
-            }
-        });
+        if(null != cookies && cookies.size() > 0){
+            CacheUtils.putDisk(mContext, url.host(), new ArrayList<SerializableOkHttpCookies>(cookies.size()){
+                {
+                    for(Cookie cookie : cookies){
+                        add(new SerializableOkHttpCookies(cookie));
+                    }
+                }
+            });
+        }
     }
 
     @Override
     public List<Cookie> loadForRequest(HttpUrl url) {
-        List<Cookie> cookies =  (List<Cookie>) CacheUtils.get(mContext, url.host(), false);
-        return null == cookies ? new ArrayList<Cookie>(0) : cookies;
+        final List<SerializableOkHttpCookies> serializableOkHttpCookies =  (List<SerializableOkHttpCookies>) CacheUtils.get
+                (mContext, url.host(), false);
+        return null == serializableOkHttpCookies ? Collections.<Cookie>emptyList() : new ArrayList<Cookie>
+                (serializableOkHttpCookies.size()){
+            {
+                for (SerializableOkHttpCookies temp : serializableOkHttpCookies){
+                    add(temp.getCookies());
+                }
+            }
+        };
     }
 }

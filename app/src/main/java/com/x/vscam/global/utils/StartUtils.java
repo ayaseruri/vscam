@@ -7,15 +7,13 @@ import com.x.vscam.imgviewer.ImgViewerActivity_;
 import com.x.vscam.login.LoginActivity_;
 import com.x.vscam.main.ImgFlowBean;
 import com.x.vscam.main.MainActivity_;
-import com.x.vscam.settings.SettingsActivity;
 import com.x.vscam.settings.SettingsActivity_;
 import com.x.vscam.upload.ImgUploadActivity_;
+import com.x.vscam.userdetail.UserDetailActivity_;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 
@@ -24,8 +22,8 @@ import android.support.v4.app.ActivityOptionsCompat;
  */
 
 public class StartUtils {
-    public static void startMain(Context context, ActivityOptionsCompat options){
-        ActivityCompat.startActivity(context, new Intent(context, MainActivity_.class), options.toBundle());
+    public static void startMain(Context context){
+        context.startActivity(new Intent(context, MainActivity_.class));
     }
 
     public static void startUpload(Context context){
@@ -54,5 +52,10 @@ public class StartUtils {
 
     public static void startSettings(Context context){
         context.startActivity(new Intent(context, SettingsActivity_.class));
+    }
+
+    public static void startUserDetail(Context context, ActivityOptionsCompat options){
+        Intent intent = new Intent(context, UserDetailActivity_.class);
+        ActivityCompat.startActivity(context, intent, options.toBundle());
     }
 }

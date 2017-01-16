@@ -15,10 +15,11 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        app:placeholderImage="@drawable/ic_logo"
+        app:placeholderImage="@mipmap/ic_logo"
         android:transitionName="@string/logo_transition_name"/>
 
     <ImageView
+        android:id="@+id/slogan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_slogan"/>

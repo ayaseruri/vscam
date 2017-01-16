@@ -7,7 +7,11 @@
     android:layout_height="match_parent"
     tools:context="com.x.vscam.main.MainActivity">
 
-    <include layout="@layout/view_swipe_refresh"/>
+    <com.x.vscam.global.ui.ImgFlowView_
+        android:id="@+id/img_flow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -39,7 +43,7 @@
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:layout_width="34dp"
                     android:layout_height="34dp"
-                    app:placeholderImage="@drawable/ic_logo"
+                    app:placeholderImage="@mipmap/ic_logo"
                     android:transitionName="@string/logo_transition_name"/>
             </LinearLayout>
 

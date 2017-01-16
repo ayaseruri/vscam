@@ -14,7 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".main.MainActivity_" />
+        <activity android:name=".main.MainActivity_"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Main"/>
         <activity
             android:name=".splash.SplashActivity_"
             android:launchMode="singleTask"

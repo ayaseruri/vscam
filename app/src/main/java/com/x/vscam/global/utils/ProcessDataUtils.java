@@ -34,7 +34,7 @@ public class ProcessDataUtils {
         return imgUrl;
     }
 
-    public static String getAvatar(int uid){
-        return "http://vscam.co/avatar/b/" + uid + ".jpg";
+    public static String getAvatar(UserBean userBean){
+        return 0 == userBean.getAvatar() ? "" : "http://vscam.co/avatar/b/" + userBean.getUid() + ".jpg";
     }
 }

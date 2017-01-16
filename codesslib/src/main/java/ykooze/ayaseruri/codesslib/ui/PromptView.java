@@ -1,5 +1,8 @@
 package ykooze.ayaseruri.codesslib.ui;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.IntDef;
@@ -8,10 +11,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 import ykooze.ayaseruri.codesslib.R;
 
 /**
@@ -62,8 +61,7 @@ public class PromptView extends FrameLayout {
             if(null == mErrorFrame){
                 synchronized (PromptView.class){
                     if(null == mErrorFrame){
-                        mErrorFrame = mInflater.inflate(mEmptyLayoutId, null);
-                        addView(mErrorFrame);
+                        mErrorFrame = ((FrameLayout) mInflater.inflate(mEmptyLayoutId, this, true)).getChildAt(0);
                     }
                 }
             }
@@ -73,8 +71,7 @@ public class PromptView extends FrameLayout {
             if(null == mEmptyFrame){
                 synchronized (PromptView.class){
                     if(null == mEmptyFrame){
-                        mEmptyFrame = mInflater.inflate(mEmptyLayoutId, null);
-                        addView(mEmptyFrame);
+                        mEmptyFrame = ((FrameLayout) mInflater.inflate(mEmptyLayoutId, this, true)).getChildAt(1);
                     }
                 }
             }
@@ -84,8 +81,7 @@ public class PromptView extends FrameLayout {
             if(null == mLoadingFrame){
                 synchronized (PromptView.class){
                     if(null == mLoadingFrame){
-                        mLoadingFrame = mInflater.inflate(mLoadingLayoutId, null);
-                        addView(mLoadingFrame);
+                        mLoadingFrame = ((FrameLayout) mInflater.inflate(mLoadingLayoutId, this, true)).getChildAt(2);
                     }
                 }
             }

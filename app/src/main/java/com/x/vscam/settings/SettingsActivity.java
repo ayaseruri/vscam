@@ -1,5 +1,7 @@
 package com.x.vscam.settings;
 
+import java.io.File;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -15,7 +17,6 @@ import com.x.vscam.global.utils.ImgUploadUtils;
 import com.x.vscam.global.utils.ProcessDataUtils;
 import com.x.vscam.global.utils.StartUtils;
 import com.x.vscam.global.utils.UserInfoUtils;
-import com.x.vscam.upload.UploadResponseBean;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,22 +26,16 @@ import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.io.File;
-import java.io.IOException;
-
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import ykooze.ayaseruri.codesslib.cache.CacheUtils;
 import ykooze.ayaseruri.codesslib.io.FileUtils;
-import ykooze.ayaseruri.codesslib.net.progress.HttpProgressUtils;
-import ykooze.ayaseruri.codesslib.net.progress.ProgressListener;
 import ykooze.ayaseruri.codesslib.rx.RxActivity;
 import ykooze.ayaseruri.codesslib.rx.RxUtils;
 
@@ -72,7 +67,7 @@ public class SettingsActivity extends RxActivity {
     void init(){
         if(UserInfoUtils.isLogin(this)){
             UserBean userBean = UserInfoUtils.getUserInfo(this);
-            mAvatar.setImageURI(ProcessDataUtils.getAvatar(userBean.getUid()));
+            mAvatar.setImageURI(ProcessDataUtils.getAvatar(userBean));
         }else {
             finish();
         }
@@ -144,6 +139,35 @@ public class SettingsActivity extends RxActivity {
                 .subscribe(new Consumer<UserBean>() {
                     @Override
                     public void accept(UserBean userBean) throws Exception {
+
+                    }
+                });
+    }
+
+    @Click(R.id.del_avatar)
+    void onDelAvatar(){
+        ApiIml.getInstance(this).delAvatar().compose(RxUtils.<ResponseBody>applySchedulers())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Snackbar.make(mLinear, "已经删除头像", Snackbar.LENGTH_LONG).show();
+                        UserBean userBean = UserInfoUtils.getUserInfo(SettingsActivity.this);
+                        userBean.setAvatar(0);
+                        UserInfoUtils.saveUserInfo(SettingsActivity.this, userBean);
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
 
                     }
                 });

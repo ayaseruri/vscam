@@ -5,11 +5,14 @@ import com.x.vscam.imgdetail.MapBean;
 import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.main.ImgFlowBean;
 import com.x.vscam.settings.UploadAvatarResponseBean;
+import com.x.vscam.upload.SubImgBean;
 import com.x.vscam.upload.UploadResponseBean;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -24,7 +27,7 @@ import retrofit2.http.Query;
 
 public interface ApiInterface {
     @GET("/x/?a=h")
-    Call<ImgFlowBean> getImgFlow(@Query("s") int lastUnix);
+    Call<ImgFlowBean> getImgFlow(@Query("s") int lastUnix, @Query("u") int uid);
 
     @Multipart
     @POST("/x/?a=upload")
@@ -33,6 +36,12 @@ public interface ApiInterface {
     @Multipart
     @POST("/x/?a=avatar")
     Observable<UploadAvatarResponseBean> uploadAvatar(@Part("avatar\"; filename=\"image.jpg") RequestBody imgs);
+
+    @GET("/x/?a=avatar.del")
+    Observable<ResponseBody> delAvatar();
+
+    @POST("/x/?a=release")
+    Observable<UploadAvatarResponseBean> subImg(@Body SubImgBean subImgBean);
 
     @GET("/x/?a=maps&size=800*300")
     Observable<MapBean> getMap(@Query("gps") String gps);
