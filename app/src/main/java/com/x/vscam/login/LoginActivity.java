@@ -13,16 +13,19 @@ import com.x.vscam.global.Constans;
 import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.global.net.ApiIml;
 import com.x.vscam.global.ui.BaseActivity;
+import com.x.vscam.global.utils.StartUtils;
 
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
-
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import ykooze.ayaseruri.codesslib.rx.RxUtils;
@@ -40,6 +43,8 @@ public class LoginActivity extends BaseActivity {
     SimpleDraweeView mLoginIc;
     @ViewById(R.id.progress_bar)
     ContentLoadingProgressBar mProgressBar;
+    @ViewById(R.id.login_btn)
+    Button mLoginBtn;
 
     @AfterViews
     void init(){
@@ -52,13 +57,13 @@ public class LoginActivity extends BaseActivity {
     void onLogin(){
         String email = mEmail.getEditText().getText().toString();
         if(TextUtils.isEmpty(email)){
-            Snackbar.make(mLinear, "邮箱不能为空", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mLinear, "请填写邮箱", Snackbar.LENGTH_LONG).show();
             return;
         }
 
         String pass = mPassword.getEditText().getText().toString();
         if(TextUtils.isEmpty(pass)){
-            Snackbar.make(mLinear, "密码不能为空", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mLinear, "请填写密码", Snackbar.LENGTH_LONG).show();
             return;
         }
 
@@ -87,6 +92,14 @@ public class LoginActivity extends BaseActivity {
                         finish();
                     }
                 });
+    }
+
+    @Click(R.id.register)
+    void onRegister(){
+        StartUtils.startRegister(this, ActivityOptionsCompat.makeSceneTransitionAnimation(this
+                , Pair.<View, String>create(mEmail, getString(R.string.email_transition_name))
+                , Pair.<View, String>create(mPassword, getString(R.string.pass_transition_name))
+                , Pair.<View, String>create(mLoginBtn, getString(R.string.register_btn_transition_name))));
     }
 
     private void initFrescoShareElement(){

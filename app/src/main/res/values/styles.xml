@@ -13,10 +13,6 @@
         <item name="buttonStyle">@style/Button</item>
     </style>
 
-    <style name="AppTheme.Main">
-        <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
-
     <style name="AppTheme.ImgUpload">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>

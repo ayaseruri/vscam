@@ -1,5 +1,7 @@
 package com.x.vscam.main;
 
+import static android.view.View.GONE;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -15,18 +17,27 @@ import com.x.vscam.global.ui.ImgFlowView;
 import com.x.vscam.global.utils.ProcessDataUtils;
 import com.x.vscam.global.utils.StartUtils;
 import com.x.vscam.global.utils.UserInfoUtils;
+import com.x.vscam.splash.SplashView;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.AccelerateInterpolator;
 import ykooze.ayaseruri.codesslib.ui.CommonRecyclerView;
+import ykooze.ayaseruri.codesslib.ui.LocalDisplay;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
 
+    private static short SPLASH_TIME = 1;
     private static final String TAG = "main_img_flow";
 
+    @ViewById(R.id.splash)
+    SplashView mSplashView;
     @ViewById(R.id.activity_main)
     View mRoot;
     @ViewById(R.id.recycler)
@@ -53,7 +64,31 @@ public class MainActivity extends BaseActivity {
 
     @AfterViews
     void init(){
-        mImgFlowView.init(TAG, 0);
+        if(GONE == mRoot.getVisibility()){
+            mSplashView.init(SPLASH_TIME, new SplashView.IOnSplashTimeEnd() {
+                @Override
+                public void onEnd() {
+                    mRoot.setVisibility(View.VISIBLE);
+                    Animator animator = ViewAnimationUtils.createCircularReveal(mRoot
+                            , mSplashView.getLogoCenterX()
+                            , mSplashView.getLogoCenterY()
+                            , 0
+                            , LocalDisplay.SCREEN_HEIGHT_PIXELS);
+                    animator.setInterpolator(new AccelerateInterpolator());
+                    animator.setDuration(800);
+                    animator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mSplashView.setVisibility(GONE);
+                        }
+                    });
+                    animator.start();
+                    mImgFlowView.init(TAG, 0);
+                }
+            });
+        }else {
+            mImgFlowView.init(TAG, 0);
+        }
     }
 
     @Click(R.id.avatar)

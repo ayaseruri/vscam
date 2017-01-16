@@ -54,6 +54,11 @@ public interface ApiInterface {
     Observable<UserBean> login(@Field("id") String id, @Field("password") String pass);
 
     @FormUrlEncoded
+    @POST("/x/?a=u`")
+    Observable<UserBean> register(@Field("name") String nick, @Field("mail") String email, @Field("password") String
+            pass);
+
+    @FormUrlEncoded
     @POST("/x/?a=u")
     Observable<UserBean> editInfo(@Field("des") String des, @Field("url") String url);
 }

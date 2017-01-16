@@ -14,12 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".main.MainActivity_"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Main"/>
         <activity
-            android:name=".splash.SplashActivity_"
+            android:name=".main.MainActivity_"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -49,13 +45,18 @@
             android:name=".imgviewer.ImgViewerActivity_"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.ImgViewer"/>
-        <activity android:name=".about.AboutActivity_"
+            android:theme="@style/AppTheme.ImgViewer" />
+        <activity
+            android:name=".about.AboutActivity_"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".userdetail.UserDetailActivity_"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".userdetail.UserDetailActivity_"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".register.RegisterActivity_"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

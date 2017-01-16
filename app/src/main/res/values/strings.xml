@@ -12,4 +12,7 @@
     <string name="img_transition_name">img_transition</string>
     <string name="logo_transition_name">logo_transition</string>
     <string name="avatar_transition_name">avatar_transition</string>
+    <string name="email_transition_name">email_transition</string>
+    <string name="pass_transition_name">pass_transition</string>
+    <string name="register_btn_transition_name">register_btn_transition</string>
 </resources>
