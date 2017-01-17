@@ -11,6 +11,7 @@ import ykooze.ayaseruri.codesslib.cache.CacheUtils;
  */
 
 public class UserInfoUtils {
+
     public static UserBean getUserInfo(Context context){
         return (UserBean) CacheUtils.get(context, Constans.KEY_USER_INFO, false);
     }

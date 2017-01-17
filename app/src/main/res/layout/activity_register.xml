@@ -70,9 +70,11 @@
         android:orientation="horizontal"
         android:layout_marginTop="29dp">
         <CheckBox
+            android:id="@+id/user_agreement_check"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:button="@null"
+            android:checked="true"
             android:background="@drawable/selector_user_agreement"/>
 
         <ykooze.ayaseruri.codesslib.ui.BabushkaText

@@ -317,4 +317,12 @@ public class Utils {
         intent.setDataAndType(uri, "application/vnd.android.package-archive");
         context.startActivity(intent);
     }
+
+    public static void userLocalBorwer(Context context, String url){
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri content_url = Uri.parse(url);
+        intent.setData(content_url);
+        context.startActivity(Intent.createChooser(intent, "请选择浏览器"));
+    }
 }

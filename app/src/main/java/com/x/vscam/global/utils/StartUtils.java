@@ -55,8 +55,9 @@ public class StartUtils {
         context.startActivity(new Intent(context, AboutActivity_.class));
     }
 
-    public static void startSettings(Context context){
-        context.startActivity(new Intent(context, SettingsActivity_.class));
+    public static void startSettings(Context context, ActivityOptionsCompat options){
+        Intent intent = new Intent(context, SettingsActivity_.class);
+        ActivityCompat.startActivity(context, intent, options.toBundle());
     }
 
     public static void startUserDetail(Context context, ActivityOptionsCompat options){

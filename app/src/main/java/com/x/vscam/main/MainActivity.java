@@ -110,7 +110,9 @@ public class MainActivity extends BaseActivity {
     @Click(R.id.settings)
     void onSettings(){
         if(UserInfoUtils.isLogin(this)){
-            StartUtils.startSettings(this);
+            StartUtils.startSettings(this
+                    , ActivityOptionsCompat.makeSceneTransitionAnimation(this
+                            , mAvatar, getString(R.string.avatar_transition_name)));
         }else {
             Snackbar.make(mRoot, "需要登录", Snackbar.LENGTH_LONG).show();
         }

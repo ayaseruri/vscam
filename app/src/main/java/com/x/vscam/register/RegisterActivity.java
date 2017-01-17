@@ -19,6 +19,8 @@ import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CheckBox;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import ykooze.ayaseruri.codesslib.rx.RxUtils;
@@ -37,10 +39,10 @@ public class RegisterActivity extends BaseActivity {
     TextInputLayout mPassword;
     @ViewById(R.id.progress_bar)
     ContentLoadingProgressBar mProgressBar;
-    @ViewById(R.id.root)
-    View mRoot;
     @ViewById(R.id.user_agreement)
     BabushkaText mUserAgreement;
+    @ViewById(R.id.user_agreement_check)
+    CheckBox mUserAgreementCheck;
 
     @AfterViews
     void init(){
@@ -53,30 +55,31 @@ public class RegisterActivity extends BaseActivity {
                 .build());
 
         mUserAgreement.display();
-    }
 
-    @AfterViews
-    void init(){
         Utils.setDisplayHomeAsUp(this, mToolbar);
     }
 
     @Click(R.id.register_btn)
     void onRegister(){
+        if(!mUserAgreementCheck.isChecked()){
+            Utils.getSnackBar(this, "须先同意用户协议").show();
+        }
+
         String nick = mNick.getEditText().getText().toString();
         if(TextUtils.isEmpty(nick)){
-            Snackbar.make(mRoot, "请填写昵称", Snackbar.LENGTH_LONG).show();
+            Utils.getSnackBar(this, "请填写昵称").show();
             return;
         }
 
         String email = mEmail.getEditText().getText().toString();
         if(TextUtils.isEmpty(email)){
-            Snackbar.make(mRoot, "请填写邮箱", Snackbar.LENGTH_LONG).show();
+            Utils.getSnackBar(this, "请填写邮箱").show();
             return;
         }
 
         String pass = mPassword.getEditText().getText().toString();
         if(TextUtils.isEmpty(pass)){
-            Snackbar.make(mRoot, "请填写密码", Snackbar.LENGTH_LONG).show();
+            Utils.getSnackBar(this, "请填写密码").show();
             return;
         }
 
@@ -104,5 +107,10 @@ public class RegisterActivity extends BaseActivity {
                         mProgressBar.setVisibility(View.INVISIBLE);
                     }
                 });
+    }
+
+    @Click(R.id.user_agreement)
+    void onUserAgreement(){
+        ykooze.ayaseruri.codesslib.others.Utils.userLocalBorwer(this, "http://vscam.co/privacy.html");
     }
 }

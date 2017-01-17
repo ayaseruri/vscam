@@ -20,6 +20,7 @@ import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import ykooze.ayaseruri.codesslib.cache.CacheUtils;
 import ykooze.ayaseruri.codesslib.io.SerializeUtils;
 import ykooze.ayaseruri.codesslib.others.Utils;
 
@@ -51,7 +52,7 @@ public class RxUtils {
         };
     }
 
-    public static <T> ObservableTransformer<T, T> applyCache(final Context context, final String tag){
+    public static <T extends Serializable> ObservableTransformer<T, T> applyCache(final Context context, final String tag){
         return new ObservableTransformer<T, T>() {
             @Override
             public ObservableSource<T> apply(io.reactivex.Observable<T> upstream) {
@@ -60,7 +61,7 @@ public class RxUtils {
                         .map(new Function<T, T>() {
                             @Override
                             public T apply(T t) throws Exception {
-                                SerializeUtils.serializationSync(context, tag, t);
+                                CacheUtils.putDisk(context, tag, t);
                                 return t;
                             }
                         });
@@ -79,8 +80,7 @@ public class RxUtils {
                         Observable.defer(new Callable<ObservableSource<? extends T>>() {
                             @Override
                             public ObservableSource<? extends T> call() throws Exception {
-                                final Object object = SerializeUtils.deserializationSync(context, tag,
-                                        delete);
+                                final Object object = CacheUtils.get(context, tag, delete);
                                 return null == object ? Observable.<T>empty() : Observable.create(
                                         new ObservableOnSubscribe<T>() {
                                             @Override
@@ -103,7 +103,7 @@ public class RxUtils {
         if(null == sChedulers){
             synchronized (RxUtils.class){
                 if(null == sChedulers){
-                    int workNum = Math.min(Math.max(4, Utils.getNumberOfCores()) * 2 + 1, 16);
+                    int workNum = Math.min(Utils.getNumberOfCores() * 2 + 1, 16);
                     sChedulers = Schedulers.from(new ThreadPoolExecutor(1,
                             workNum,
                             30,

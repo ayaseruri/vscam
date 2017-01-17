@@ -63,16 +63,15 @@
         <activity
             android:name=".userdetail.UserDetailActivity_"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label=""/>
         <activity android:name=".register.RegisterActivity_"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:label=""/>
-
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:theme="@android:style/Theme.Translucent" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.x.vscam.fileProvider"

@@ -12,7 +12,6 @@ import com.x.vscam.global.net.ApiInterface;
 import com.x.vscam.global.utils.FrescoOptimizeScrollLisenter;
 import com.x.vscam.global.utils.ProcessDataUtils;
 import com.x.vscam.main.ImgFlowBean;
-import com.x.vscam.main.ImgFlowItem_;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;
