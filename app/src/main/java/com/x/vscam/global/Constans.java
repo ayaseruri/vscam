@@ -12,4 +12,6 @@ public class Constans {
     public static final String KEY_USER_INFO = "key_user_info";
     public static final String KEY_GRID = "key_grid";
     public static final String KEY_IMG_PATH = "key_img_path";
+
+    public static final String TAG_REPORT = "tag_report";
 }

@@ -11,6 +11,7 @@ import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.tencent.bugly.beta.Beta;
 import com.x.vscam.R;
 import com.x.vscam.global.ui.BaseActivity;
 import com.x.vscam.global.ui.ImgFlowView;
@@ -89,6 +90,8 @@ public class MainActivity extends BaseActivity {
         }else {
             mImgFlowView.init(TAG, 0);
         }
+
+        Beta.checkUpgrade(false, true);
     }
 
     @Click(R.id.avatar)

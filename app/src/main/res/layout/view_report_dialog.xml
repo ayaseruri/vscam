@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.TextInputLayout android:id="@+id/reason"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditText
+        android:layout_width="273dp"
+        android:layout_height="39dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:hint="描述信息"/>
+</android.support.design.widget.TextInputLayout>

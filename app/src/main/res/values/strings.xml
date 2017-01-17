@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Vscam</string>
+    <string name="app_name">VSCAM</string>
     <string name="data_error">服务器返回数据错误</string>
     <string name="net_error">网络开了一个小差</string>
     <string name="already_end">已经到底啦</string>

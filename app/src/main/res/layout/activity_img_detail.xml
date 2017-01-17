@@ -3,11 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.x.vscam.imgdetail.ImgDetailActivity">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:contentInsetStart="0dp" />
 
     <com.x.vscam.imgdetail.ReboundScrollView
         android:id="@+id/scroll"
@@ -38,5 +33,14 @@
                 app:backgroundImage="@color/colorPrimary"/>
         </LinearLayout>
     </com.x.vscam.imgdetail.ReboundScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:contentInsetStart="0dp" />
 </merge>
 

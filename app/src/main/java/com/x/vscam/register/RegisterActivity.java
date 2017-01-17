@@ -10,11 +10,13 @@ import com.x.vscam.global.Constans;
 import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.global.net.ApiIml;
 import com.x.vscam.global.ui.BaseActivity;
+import com.x.vscam.global.utils.Utils;
 
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import io.reactivex.Observer;
@@ -25,6 +27,8 @@ import ykooze.ayaseruri.codesslib.ui.BabushkaText;
 @EActivity(R.layout.activity_register)
 public class RegisterActivity extends BaseActivity {
 
+    @ViewById(R.id.toolbar)
+    Toolbar mToolbar;
     @ViewById(R.id.nick)
     TextInputLayout mNick;
     @ViewById(R.id.email)
@@ -49,6 +53,11 @@ public class RegisterActivity extends BaseActivity {
                 .build());
 
         mUserAgreement.display();
+    }
+
+    @AfterViews
+    void init(){
+        Utils.setDisplayHomeAsUp(this, mToolbar);
     }
 
     @Click(R.id.register_btn)

@@ -43,6 +43,10 @@ public interface ApiInterface {
     @POST("/x/?a=release")
     Observable<UploadAvatarResponseBean> subImg(@Body SubImgBean subImgBean);
 
+    @Multipart
+    @POST("/x/?a=filter")
+    Observable<ResponseBody> reportImg(@Part("pid")int pid, @Part("text")String reson);
+
     @GET("/x/?a=maps&size=800*300")
     Observable<MapBean> getMap(@Query("gps") String gps);
 
