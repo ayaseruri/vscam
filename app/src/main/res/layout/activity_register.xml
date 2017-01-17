@@ -24,7 +24,7 @@
         android:id="@+id/nick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="30dp"
         android:layout_gravity="center_horizontal">
         <EditText
             android:layout_width="273dp"
@@ -62,11 +62,32 @@
             android:hint="******"/>
     </android.support.design.widget.TextInputLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="29dp">
+        <CheckBox
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:button="@null"
+            android:background="@drawable/selector_user_agreement"/>
+
+        <ykooze.ayaseruri.codesslib.ui.BabushkaText
+            android:id="@+id/user_agreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:layout_marginStart="13dp"
+            android:textColor="@color/colorAccent"/>
+    </LinearLayout>
+
     <android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="13dp"
         android:visibility="invisible"
         style="?android:attr/progressBarStyleSmall"
         android:layout_gravity="center_horizontal" />
@@ -75,7 +96,7 @@
         android:id="@+id/register_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="13dp"
         android:transitionName="@string/register_btn_transition_name"
         android:text="注册"
         android:layout_gravity="center_horizontal" />
