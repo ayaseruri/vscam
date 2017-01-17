@@ -9,6 +9,7 @@ import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 import com.x.vscam.R;
 import com.x.vscam.global.net.ApiIml;
 import com.x.vscam.global.net.ApiInterface;
+import com.x.vscam.global.utils.FrescoOptimizeScrollLisenter;
 import com.x.vscam.global.utils.ProcessDataUtils;
 import com.x.vscam.main.ImgFlowBean;
 import com.x.vscam.main.ImgFlowItem_;
@@ -60,6 +61,7 @@ public class ImgFlowView extends SwipeRefreshLayout {
                 , true
                 , false
                 , false));
+
         mRecyclerView.init(new CommonRecyclerView.ICommonRecyclerView<ImgFlowBean.GridsBean>() {
             @Override
             public List<ImgFlowBean.GridsBean> getFirstInData() throws Exception {
@@ -122,6 +124,7 @@ public class ImgFlowView extends SwipeRefreshLayout {
                 return ImgFlowItem_.build(parent.getContext());
             }
         });
+        mRecyclerView.addOnScrollListener(new FrescoOptimizeScrollLisenter());
 
         setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

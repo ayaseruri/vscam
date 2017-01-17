@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity {
             mImgFlowView.init(TAG, 0);
         }
 
-        Beta.checkUpgrade(true, true);
+        Beta.checkUpgrade(false, true);
     }
 
     @Click(R.id.avatar)
