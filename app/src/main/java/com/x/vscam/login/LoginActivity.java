@@ -14,6 +14,7 @@ import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.global.net.ApiIml;
 import com.x.vscam.global.ui.BaseActivity;
 import com.x.vscam.global.utils.StartUtils;
+import com.x.vscam.global.utils.Utils;
 
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -33,6 +35,8 @@ import ykooze.ayaseruri.codesslib.rx.RxUtils;
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
 
+    @ViewById(R.id.toolbar)
+    Toolbar mToolbar;
     @ViewById(R.id.linear)
     LinearLayout mLinear;
     @ViewById(R.id.email)
@@ -49,7 +53,7 @@ public class LoginActivity extends BaseActivity {
     @AfterViews
     void init(){
         mLoginIc.setImageURI(Uri.parse("res:///" + R.mipmap.ic_login));
-
+        Utils.setDisplayHomeAsUp(this, mToolbar);
         initFrescoShareElement();
     }
 

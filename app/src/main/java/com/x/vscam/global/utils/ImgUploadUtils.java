@@ -1,19 +1,14 @@
 package com.x.vscam.global.utils;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-
-import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.x.vscam.upload.ImgUploadActivity;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.reactivex.functions.Consumer;
-import ykooze.ayaseruri.codesslib.others.*;
 import ykooze.ayaseruri.codesslib.rx.RxUtils;
 
 /**
@@ -47,6 +42,7 @@ public class ImgUploadUtils {
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
                 activity.finish();
             }
         });

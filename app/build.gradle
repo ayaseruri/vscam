@@ -31,6 +31,7 @@ dependencies {
     compile 'com.facebook.fresco:fresco:1.0.0'
     compile 'me.relex:photodraweeview:1.1.2'
     compile 'com.github.medyo:android-about-page:1.1.1'
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
     testCompile 'junit:junit:4.12'
     compile project(':codesslib')
 }

@@ -5,6 +5,8 @@ import java.io.File;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -17,12 +19,14 @@ import com.x.vscam.global.utils.ImgUploadUtils;
 import com.x.vscam.global.utils.ProcessDataUtils;
 import com.x.vscam.global.utils.StartUtils;
 import com.x.vscam.global.utils.UserInfoUtils;
+import com.x.vscam.global.utils.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -40,10 +44,13 @@ import ykooze.ayaseruri.codesslib.rx.RxActivity;
 import ykooze.ayaseruri.codesslib.rx.RxUtils;
 
 @EActivity(R.layout.activity_settings)
+@OptionsMenu(R.menu.menu_settings)
 public class SettingsActivity extends RxActivity {
 
     private static final short OPEN_GALLERY_REQUEST = 101;
 
+    @ViewById(R.id.toolbar)
+    Toolbar mToolbar;
     @ViewById(R.id.linear)
     LinearLayout mLinear;
     @ViewById(R.id.avatar)
@@ -68,6 +75,10 @@ public class SettingsActivity extends RxActivity {
         if(UserInfoUtils.isLogin(this)){
             UserBean userBean = UserInfoUtils.getUserInfo(this);
             mAvatar.setImageURI(ProcessDataUtils.getAvatar(userBean));
+            mIntroduce.getEditText().setText(userBean.getDes());
+            mBlog.getEditText().setText(userBean.getUrl());
+
+            Utils.setDisplayHomeAsUp(this, mToolbar);
         }else {
             finish();
         }
@@ -188,5 +199,11 @@ public class SettingsActivity extends RxActivity {
     @Click(R.id.about)
     void onAbout(){
         StartUtils.startAbout(this);
+    }
+
+    @OptionsItem(R.id.share)
+    void onShare(){
+        UserBean userBean = UserInfoUtils.getUserInfo(this);
+        Utils.share(this, "VSCAM", "https://vscam.co/#!u/" + (null == userBean ? "" : userBean.getName()));
     }
 }

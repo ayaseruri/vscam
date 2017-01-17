@@ -1,5 +1,6 @@
 package com.x.vscam.register;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -9,10 +10,12 @@ import com.x.vscam.global.Constans;
 import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.global.net.ApiIml;
 import com.x.vscam.global.ui.BaseActivity;
+import com.x.vscam.global.utils.Utils;
 
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import io.reactivex.Observer;
@@ -22,6 +25,8 @@ import ykooze.ayaseruri.codesslib.rx.RxUtils;
 @EActivity(R.layout.activity_register)
 public class RegisterActivity extends BaseActivity {
 
+    @ViewById(R.id.toolbar)
+    Toolbar mToolbar;
     @ViewById(R.id.nick)
     TextInputLayout mNick;
     @ViewById(R.id.email)
@@ -32,6 +37,11 @@ public class RegisterActivity extends BaseActivity {
     ContentLoadingProgressBar mProgressBar;
     @ViewById(R.id.root)
     View mRoot;
+
+    @AfterViews
+    void init(){
+        Utils.setDisplayHomeAsUp(this, mToolbar);
+    }
 
     @Click(R.id.register_btn)
     void onRegister(){
