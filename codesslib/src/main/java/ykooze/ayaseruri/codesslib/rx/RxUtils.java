@@ -21,7 +21,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import ykooze.ayaseruri.codesslib.cache.CacheUtils;
-import ykooze.ayaseruri.codesslib.io.SerializeUtils;
 import ykooze.ayaseruri.codesslib.others.Utils;
 
 /**
@@ -103,10 +102,11 @@ public class RxUtils {
         if(null == sChedulers){
             synchronized (RxUtils.class){
                 if(null == sChedulers){
-                    int workNum = Math.min(Utils.getNumberOfCores() * 2 + 1, 16);
-                    sChedulers = Schedulers.from(new ThreadPoolExecutor(1,
+                    int cupCores = Utils.getNumberOfCores();
+                    int workNum = Math.min(cupCores * 2 + 1, 16);
+                    sChedulers = Schedulers.from(new ThreadPoolExecutor(cupCores,
                             workNum,
-                            30,
+                            1,
                             TimeUnit.SECONDS,
                             new LinkedBlockingQueue<Runnable>())
                     );
