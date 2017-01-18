@@ -143,12 +143,16 @@ public class ImgUploadActivity extends BaseActivity {
         String type = options.outMimeType;
         if("image/jpeg".equals(type)){
             Metadata metadata = ImageMetadataReader.readMetadata(imgFile);
-            ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
-            String imgDescription = directory.getString(ExifSubIFDDirectory.TAG_IMAGE_DESCRIPTION);
-            if(!TextUtils.isEmpty(imgDescription) && imgDescription.contains("VSCO")){
-                mFliterName.setText(imgDescription.substring(imgDescription.lastIndexOf("with ") + "with ".length()
-                        , imgDescription.lastIndexOf(" preset")));
-                return true;
+            if(null != metadata){
+                ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
+                if(null != directory){
+                    String imgDescription = directory.getString(ExifSubIFDDirectory.TAG_IMAGE_DESCRIPTION);
+                    if(!TextUtils.isEmpty(imgDescription) && imgDescription.contains("VSCO")){
+                        mFliterName.setText(imgDescription.substring(imgDescription.lastIndexOf("with ") + "with ".length()
+                                , imgDescription.lastIndexOf(" preset")));
+                        return true;
+                    }
+                }
             }
         }
         return false;
