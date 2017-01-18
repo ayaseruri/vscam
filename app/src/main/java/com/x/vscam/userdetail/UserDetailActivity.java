@@ -44,7 +44,7 @@ public class UserDetailActivity extends BaseActivity {
             mAvatar.setImageURI(ProcessDataUtils.getAvatar(userBean));
             mUserName.setText(userBean.getName());
             mDescription.setText(userBean.getDes());
-            mImgFlowView.init(TAG, userBean.getUid());
+            mImgFlowView.init(TAG, userBean.getUid(), true);
             Utils.setDisplayHomeAsUp(this, mToolbar);
         }else {
             finish();

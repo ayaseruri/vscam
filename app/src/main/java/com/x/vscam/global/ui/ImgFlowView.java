@@ -50,7 +50,7 @@ public class ImgFlowView extends SwipeRefreshLayout {
         super(context, attrs);
     }
 
-    public void init(final String tag, final int uid){
+    public void init(final String tag, final int uid, final boolean hideUserName){
         final ApiInterface apiInterface = ApiIml.getInstance(getContext());
 
         mRecyclerView.setPreLoadPadding(PRE_LOADING_PADDING);
@@ -120,7 +120,9 @@ public class ImgFlowView extends SwipeRefreshLayout {
         }, new RecyclerAdapter<ImgFlowBean.GridsBean>() {
             @Override
             protected Item onCreateItemView(ViewGroup parent, int viewType) {
-                return ImgFlowItem_.build(parent.getContext());
+                ImgFlowItem imgFlowItem = ImgFlowItem_.build(parent.getContext());
+                imgFlowItem.setUserName(hideUserName ? GONE : VISIBLE);
+                return imgFlowItem;
             }
         });
         mRecyclerView.addOnScrollListener(new FrescoOptimizeScrollLisenter());

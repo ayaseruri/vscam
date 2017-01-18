@@ -84,11 +84,11 @@ public class MainActivity extends BaseActivity {
                         }
                     });
                     animator.start();
-                    mImgFlowView.init(TAG, 0);
+                    mImgFlowView.init(TAG, 0, false);
                 }
             });
         }else {
-            mImgFlowView.init(TAG, 0);
+            mImgFlowView.init(TAG, 0, false);
         }
 
         Beta.checkUpgrade(false, true);

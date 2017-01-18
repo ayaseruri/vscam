@@ -1,20 +1,18 @@
 package com.x.vscam.global.ui;
 
 import org.androidannotations.annotations.EViewGroup;
-import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.x.vscam.R;
 import com.x.vscam.global.utils.ProcessDataUtils;
 import com.x.vscam.global.utils.StartUtils;
-import com.x.vscam.global.utils.UserInfoUtils;
 import com.x.vscam.main.ImgFlowBean;
 
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -27,19 +25,29 @@ import ykooze.ayaseruri.codesslib.ui.LocalDisplay;
 @EViewGroup(R.layout.item_img_flow)
 public class ImgFlowItem extends RecyclerAdapter.Item<ImgFlowBean.GridsBean> {
 
-    @ViewById(R.id.img)
-    SimpleDraweeView mImg;
-    @ViewById(R.id.user_name)
-    TextView mUserName;
-    @DimensionPixelSizeRes(R.dimen.img_flow_spacing)
-    int mImgFlowSpacing;
+    private SimpleDraweeView mImg;
+    private TextView mUserName;
+    private int mImgFlowSpacing;
 
     public ImgFlowItem(Context context) {
         super(context);
+        initView();
     }
 
     public ImgFlowItem(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initView();
+    }
+
+    private void initView(){
+        LayoutInflater.from(getContext()).inflate(R.layout.item_img_flow, this, true);
+        mImg = (SimpleDraweeView) findViewById(R.id.img);
+        mUserName = (TextView) findViewById(R.id.user_name);
+        mImgFlowSpacing = getContext().getResources().getDimensionPixelSize(R.dimen.img_flow_spacing);
+    }
+
+    public void setUserName(int visibility){
+        mUserName.setVisibility(visibility);
     }
 
     @Override
@@ -48,9 +56,6 @@ public class ImgFlowItem extends RecyclerAdapter.Item<ImgFlowBean.GridsBean> {
         layoutParams.height = (int) ((LocalDisplay.SCREEN_WIDTH_PIXELS - 3 * mImgFlowSpacing) / 2.0f * data.getScale());
 
         mImg.setImageURI(ProcessDataUtils.getImgUrlS(data));
-        mUserName.setVisibility((UserInfoUtils.isLogin(getContext())
-                && UserInfoUtils.getUserInfo(getContext()).getName().equals(data.getUserName()))
-                ? GONE : VISIBLE);
         mUserName.setText(data.getUserName());
 
         setOnClickListener(new OnClickListener() {

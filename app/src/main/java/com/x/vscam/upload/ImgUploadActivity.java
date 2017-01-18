@@ -5,21 +5,29 @@ import java.io.IOException;
 
 import org.androidannotations.annotations.EActivity;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifIFD0Directory;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.x.vscam.R;
 import com.x.vscam.global.Constans;
 import com.x.vscam.global.net.ApiIml;
 import com.x.vscam.global.ui.BaseActivity;
 import com.x.vscam.global.utils.ImgUploadUtils;
+import com.x.vscam.global.utils.Utils;
 import com.x.vscam.settings.UploadAvatarResponseBean;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -43,6 +51,7 @@ import ykooze.ayaseruri.codesslib.rx.RxUtils;
 public class ImgUploadActivity extends BaseActivity {
 
     private static final short OPEN_GALLERY_REQUEST = 100;
+    private static final String NO_VSCO_JPEG = "只允许上传由VSCO调整的JEPG格式输出";
 
     private View mRootView;
     private ContentLoadingProgressBar mProgressBar;
@@ -50,6 +59,7 @@ public class ImgUploadActivity extends BaseActivity {
     private TextInputLayout mDescrption;
     private UploadResponseBean mUploadResponseBean;
     private SimpleDraweeView mImg;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +72,9 @@ public class ImgUploadActivity extends BaseActivity {
             mRootView = LayoutInflater.from(this).inflate(R.layout.activity_img_upload, null);
             mProgressBar = (ContentLoadingProgressBar) mRootView.findViewById(R.id.progress_bar);
             mFliterName = (TextView) mRootView.findViewById(R.id.fliter_name);
+            mToolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
 
+            Utils.setDisplayHomeAsUp(this, mToolbar);
             mDescrption = (TextInputLayout) mRootView.findViewById(R.id.description);
             mDescrption.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
@@ -95,13 +107,28 @@ public class ImgUploadActivity extends BaseActivity {
                     if(TextUtils.isEmpty(realImgPath)){
                         finish();
                     }else {
+                        File imgFile = new File(realImgPath);
                         initView();
-                        mImg.setImageURI(data.getData());
-                        uploadImg(new File(realImgPath));
+                        if(checkImgInfo(imgFile)){
+                            mImg.setImageURI(data.getData());
+                            uploadImg(imgFile);
+                        }else {
+                            Utils.getSnackBar(this, NO_VSCO_JPEG)
+                                    .setAction("重选", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            ImgUploadUtils.openGalleryForResult(ImgUploadActivity.this
+                                                    , OPEN_GALLERY_REQUEST);
+                                        }
+                                    })
+                                    .show();
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                     finish();
+                } catch (ImageProcessingException e) {
+                    e.printStackTrace();
                 }
             }else if(Activity.RESULT_CANCELED == resultCode){
                 finish();
@@ -109,11 +136,32 @@ public class ImgUploadActivity extends BaseActivity {
         }
     }
 
+    private boolean checkImgInfo(File imgFile) throws ImageProcessingException, IOException {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options);
+        String type = options.outMimeType;
+        if("image/jpeg".equals(type)){
+            Metadata metadata = ImageMetadataReader.readMetadata(imgFile);
+            ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
+            String imgDescription = directory.getString(ExifSubIFDDirectory.TAG_IMAGE_DESCRIPTION);
+            if(!TextUtils.isEmpty(imgDescription) && imgDescription.contains("VSCO")){
+                mFliterName.setText(imgDescription.substring(imgDescription.lastIndexOf("with ") + "with ".length()
+                        , imgDescription.lastIndexOf(" preset")));
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void subImg(UploadResponseBean uploadResponseBean){
         final SweetAlertDialog progressDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.setTitleText("正在发布图片");
 
         SubImgBean subImgBean = new SubImgBean();
+        subImgBean.setText(mDescrption.getEditText().getText().toString());
+        subImgBean.setPid(uploadResponseBean.getPid());
+
         ApiIml.getInstance(this).subImg(subImgBean).compose(RxUtils.<UploadAvatarResponseBean>applySchedulers())
                 .subscribe(new Observer<UploadAvatarResponseBean>() {
                     @Override

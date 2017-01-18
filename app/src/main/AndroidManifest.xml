@@ -35,6 +35,7 @@
             android:name=".upload.ImgUploadActivity_"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:label=""
             android:theme="@style/AppTheme.ImgUpload" />
         <activity
             android:name=".imgdetail.ImgDetailActivity_"

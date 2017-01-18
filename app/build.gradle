@@ -32,6 +32,7 @@ dependencies {
     compile 'me.relex:photodraweeview:1.1.2'
     compile 'com.github.medyo:android-about-page:1.1.1'
     compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
+    compile 'com.github.drewnoakes:metadata-extractor:2.9.1'
     testCompile 'junit:junit:4.12'
     compile project(':codesslib')
 }

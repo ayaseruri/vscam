@@ -20,11 +20,20 @@ public class AboutActivity extends BaseActivity {
 
         Element versionElement = new Element();
         versionElement.setTitle("Version " + Utils.getVerName(this));
+        Element userAgreementElement = new Element();
+        userAgreementElement.setTitle("隐私政策");
+        userAgreementElement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.userLocalBorwer(AboutActivity.this, "https://vscam.co/privacy.html");
+            }
+        });
 
         View aboutView = new AboutPage(this)
                 .isRTL(false)
                 .setImage(R.mipmap.ic_logo)
                 .addItem(versionElement)
+                .addItem(userAgreementElement)
                 .addEmail("ayaseruri@foxmail.com")
                 .setDescription("手机拍摄、胶片味、意识流")
                 .addWebsite("http://vscam.co/")

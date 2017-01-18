@@ -15,6 +15,7 @@ import com.facebook.imagepipeline.producers.ProducerContext;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Looper;
 import android.os.SystemClock;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -66,12 +67,16 @@ public class OkHttp3ImagePipelineConfigFactory {
             fetchState.getContext().addCallbacks(new BaseProducerContextCallbacks() {
                 @Override
                 public void onCancellationRequested() {
-                    RxUtils.getSchedulers().scheduleDirect(new Runnable() {
-                        @Override
-                        public void run() {
-                            call.cancel();
-                        }
-                    });
+                    if(Looper.myLooper() != Looper.getMainLooper()){
+                        call.cancel();
+                    }else {
+                        RxUtils.getSchedulers().scheduleDirect(new Runnable() {
+                            @Override
+                            public void run() {
+                                call.cancel();
+                            }
+                        });
+                    }
                 }
             });
 
