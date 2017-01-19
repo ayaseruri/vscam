@@ -23,7 +23,7 @@ public class CacheUtils {
     public static <T extends Object & Serializable> void putDisk(Context context, String key, T t){
         initMemoryCache();
         sMemoryCache.put(key, t);
-        SerializeUtils.serialization(context, key, t);
+        SerializeUtils.serializationSync(context, key, t);
     }
 
     public static Object get(Context context, String key, boolean delete){

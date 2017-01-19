@@ -1,19 +1,20 @@
 package com.x.vscam.global.net;
 
+import java.util.Map;
+
+import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.imgdetail.ImgDetailBean;
 import com.x.vscam.imgdetail.MapBean;
-import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.main.ImgFlowBean;
 import com.x.vscam.settings.UploadAvatarResponseBean;
-import com.x.vscam.upload.SubImgBean;
 import com.x.vscam.upload.UploadResponseBean;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -40,8 +41,9 @@ public interface ApiInterface {
     @GET("/x/?a=avatar.del")
     Observable<ResponseBody> delAvatar();
 
+    @FormUrlEncoded
     @POST("/x/?a=release")
-    Observable<UploadAvatarResponseBean> subImg(@Body SubImgBean subImgBean);
+    Observable<UploadAvatarResponseBean> subImg(@FieldMap Map<String, Object> subImg);
 
     @Multipart
     @POST("/x/?a=filter")
@@ -58,7 +60,7 @@ public interface ApiInterface {
     Observable<UserBean> login(@Field("id") String id, @Field("password") String pass);
 
     @FormUrlEncoded
-    @POST("/x/?a=u`")
+    @POST("/x/?a=u")
     Observable<UserBean> register(@Field("name") String nick, @Field("mail") String email, @Field("password") String
             pass);
 

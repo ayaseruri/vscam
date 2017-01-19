@@ -2,6 +2,8 @@ package com.x.vscam.upload;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -45,6 +47,7 @@ import io.reactivex.functions.Function;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import ykooze.ayaseruri.codesslib.io.FileUtils;
+import ykooze.ayaseruri.codesslib.others.InputMethodUtils;
 import ykooze.ayaseruri.codesslib.rx.RxUtils;
 
 @EActivity
@@ -79,7 +82,7 @@ public class ImgUploadActivity extends BaseActivity {
             mDescrption.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if(R.integer.action_sub_img == actionId && KeyEvent.ACTION_UP == event.getAction()){
+                    if(getResources().getInteger(R.integer.action_sub_img) == actionId){
                         if(null == mUploadResponseBean){
                             Snackbar.make(mRootView, View.VISIBLE == mProgressBar.getVisibility() ? "请等待图片上传完成"
                                     : "请添加一张图片", Snackbar.LENGTH_LONG).show();
@@ -162,11 +165,25 @@ public class ImgUploadActivity extends BaseActivity {
         final SweetAlertDialog progressDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.setTitleText("正在发布图片");
 
-        SubImgBean subImgBean = new SubImgBean();
-        subImgBean.setText(mDescrption.getEditText().getText().toString());
-        subImgBean.setPid(uploadResponseBean.getPid());
+        Map<String, Object> subMap = new HashMap<>();
+        subMap.put("state", "1");
+        subMap.put("gps", uploadResponseBean.getGps());
+        subMap.put("exif", uploadResponseBean.getExif());
+        subMap.put("preset", mFliterName.getText().toString());
+        subMap.put("text", mDescrption.getEditText().getText().toString());
+        subMap.put("pid", uploadResponseBean.getPid());
 
-        ApiIml.getInstance(this).subImg(subImgBean).compose(RxUtils.<UploadAvatarResponseBean>applySchedulers())
+        ApiIml.getInstance(this).subImg(subMap).compose(RxUtils.<UploadAvatarResponseBean>applySchedulers())
+                .flatMap(new Function<UploadAvatarResponseBean, ObservableSource<UploadAvatarResponseBean>>() {
+                    @Override
+                    public ObservableSource<UploadAvatarResponseBean> apply(UploadAvatarResponseBean uploadAvatarResponseBean)
+                            throws Exception {
+                        if(TextUtils.isEmpty(uploadAvatarResponseBean.getError())){
+                            return Observable.just(uploadAvatarResponseBean);
+                        }
+                        return Observable.error(new UploadImgErrorException(uploadAvatarResponseBean.getError()));
+                    }
+                })
                 .subscribe(new Observer<UploadAvatarResponseBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -181,7 +198,12 @@ public class ImgUploadActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         progressDialog.dismiss();
-                        Snackbar.make(mRootView, "图片发布失败", Snackbar.LENGTH_LONG).show();
+                        InputMethodUtils.hide(ImgUploadActivity.this, mRootView);
+                        if(e instanceof UploadImgErrorException) {
+                            Utils.getSnackBar(ImgUploadActivity.this, e.getMessage()).show();
+                        }else {
+                            Snackbar.make(mRootView, "图片发布失败", Snackbar.LENGTH_LONG).show();
+                        }
                     }
 
                     @Override
@@ -192,6 +214,7 @@ public class ImgUploadActivity extends BaseActivity {
                         progressDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                progressDialog.dismiss();
                                 finish();
                             }
                         });
@@ -200,7 +223,7 @@ public class ImgUploadActivity extends BaseActivity {
     }
 
     private void uploadImg(File imgFile) throws IOException {
-        RequestBody imgRequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imgFile);
+        RequestBody imgRequestBody = RequestBody.create(MediaType.parse("image/jpg"), imgFile);
         ApiIml.getInstance(this).uploadImg(imgRequestBody).compose(RxUtils.<UploadResponseBean>applySchedulers())
                 .compose(this.<UploadResponseBean>bindToLifecycle())
                 .flatMap(new Function<UploadResponseBean, ObservableSource<UploadResponseBean>>() {
@@ -233,6 +256,8 @@ public class ImgUploadActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         mProgressBar.setVisibility(View.GONE);
+                        InputMethodUtils.hide(ImgUploadActivity.this, mRootView);
+                        mUploadResponseBean = null;
                         Snackbar.make(mRootView, e instanceof ImgFormatErrorException ? e.getMessage()
                                 : "图片上传出错", Snackbar
                                 .LENGTH_LONG).show();

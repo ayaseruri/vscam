@@ -19,8 +19,17 @@ public class UserBean implements Serializable{
     private int uid;
     private String name;
     private int avatar;
+    private String error;
     private String des;
     private String url;
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 
     public int getUid() {
         return uid;

@@ -6,23 +6,26 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import com.x.vscam.R;
-import com.x.vscam.global.Constans;
 import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.global.net.ApiIml;
 import com.x.vscam.global.ui.BaseActivity;
 import com.x.vscam.global.utils.Utils;
+import com.x.vscam.login.LoginErrorException;
 
 import android.graphics.Color;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
-
+import android.widget.LinearLayout;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import ykooze.ayaseruri.codesslib.others.InputMethodUtils;
 import ykooze.ayaseruri.codesslib.rx.RxUtils;
 import ykooze.ayaseruri.codesslib.ui.BabushkaText;
 
@@ -43,6 +46,8 @@ public class RegisterActivity extends BaseActivity {
     BabushkaText mUserAgreement;
     @ViewById(R.id.user_agreement_check)
     CheckBox mUserAgreementCheck;
+    @ViewById(R.id.root)
+    LinearLayout mRoot;
 
     @AfterViews
     void init(){
@@ -63,6 +68,7 @@ public class RegisterActivity extends BaseActivity {
     void onRegister(){
         if(!mUserAgreementCheck.isChecked()){
             Utils.getSnackBar(this, "须先同意用户协议").show();
+            return;
         }
 
         String nick = mNick.getEditText().getText().toString();
@@ -83,9 +89,18 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
-        ApiIml.getInstance(this).register(nick, email, pass).compose(RxUtils.<UserBean>applyCache(this, Constans.KEY_USER_INFO))
+        ApiIml.getInstance(this).register(nick, email, pass)
                 .compose(this.<UserBean>bindToLifecycle())
                 .compose(RxUtils.<UserBean>applySchedulers())
+                .flatMap(new Function<UserBean, ObservableSource<UserBean>>() {
+                    @Override
+                    public ObservableSource<UserBean> apply(UserBean userBean) throws Exception {
+                        if(TextUtils.isEmpty(userBean.getError())){
+                            return Observable.just(userBean);
+                        }
+                        return Observable.error(new LoginErrorException(userBean.getError()));
+                    }
+                })
                 .subscribe(new Observer<UserBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -100,6 +115,10 @@ public class RegisterActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         mProgressBar.setVisibility(View.INVISIBLE);
+                        if(e instanceof LoginErrorException){
+                            InputMethodUtils.hide(RegisterActivity.this, mRoot);
+                            Utils.getSnackBar(RegisterActivity.this, e.getMessage()).show();
+                        }
                     }
 
                     @Override

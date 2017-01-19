@@ -16,7 +16,6 @@ import com.x.vscam.global.ui.BaseActivity;
 import com.x.vscam.global.utils.StartUtils;
 import com.x.vscam.global.utils.Utils;
 
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -29,10 +28,14 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import ykooze.ayaseruri.codesslib.cache.CacheUtils;
+import ykooze.ayaseruri.codesslib.others.InputMethodUtils;
 import ykooze.ayaseruri.codesslib.rx.RxUtils;
-import ykooze.ayaseruri.codesslib.ui.BabushkaText;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
@@ -75,7 +78,17 @@ public class LoginActivity extends BaseActivity {
 
         ApiIml.getInstance(this).login(email.trim(), pass.trim())
                 .compose(RxUtils.<UserBean>applySchedulers())
-                .compose(RxUtils.<UserBean>applyCache(this, Constans.KEY_USER_INFO))
+                .flatMap(new Function<UserBean, ObservableSource<UserBean>>() {
+                    @Override
+                    public ObservableSource<UserBean> apply(UserBean userBean) throws Exception {
+                        if(TextUtils.isEmpty(userBean.getError())){
+                            CacheUtils.putDisk(LoginActivity.this, Constans.KEY_USER_INFO, userBean);
+                            return Observable.just(userBean);
+                        }else {
+                            return Observable.error(new LoginErrorException(userBean.getError()));
+                        }
+                    }
+                })
                 .subscribe(new Observer<UserBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -89,7 +102,12 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        e.printStackTrace();
                         mProgressBar.setVisibility(View.INVISIBLE);
+                        if(e instanceof LoginErrorException){
+                            InputMethodUtils.hide(LoginActivity.this, mLinear);
+                            Snackbar.make(mLinear, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                        }
                     }
 
                     @Override

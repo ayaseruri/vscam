@@ -51,6 +51,7 @@
             android:name=".login.LoginActivity_"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
             android:label=""/>
         <activity
             android:name=".imgviewer.ImgViewerActivity_"

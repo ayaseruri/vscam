@@ -55,7 +55,6 @@ public class SerializeUtils {
         io.reactivex.Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-                serializationSync(context, tag, obj);
                 e.onNext(true);
                 e.onComplete();
             }
