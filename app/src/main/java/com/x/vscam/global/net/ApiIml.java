@@ -2,15 +2,10 @@ package com.x.vscam.global.net;
 
 import static com.x.vscam.global.Constans.BASE_URL;
 
-import java.io.IOException;
-
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import android.content.Context;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import ykooze.ayaseruri.codesslib.net.FastJsonConverterFactory;
 import ykooze.ayaseruri.codesslib.net.OkHttpBuilder;
 
@@ -43,14 +38,6 @@ public class ApiIml {
             synchronized(ApiIml.class){
                 if(null == sOkHttpClient){
                     sOkHttpClient = new OkHttpBuilder()
-                            .withInterceptor(new Interceptor() {
-                                @Override
-                                public Response intercept(Chain chain) throws IOException {
-                                    Request.Builder builder = chain.request().newBuilder();
-                                    builder.addHeader("referer", "https://vscam.co");
-                                    return chain.proceed(builder.build());
-                                }
-                            })
                             .withCookie(new CookiesManager(context))
                             .withDefalutCache().getClient(context);
                 }

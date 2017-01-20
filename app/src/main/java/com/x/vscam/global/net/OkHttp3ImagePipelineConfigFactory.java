@@ -1,7 +1,5 @@
 package com.x.vscam.global.net;
 
-import static io.reactivex.plugins.RxJavaPlugins.onError;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,21 +90,12 @@ public class OkHttp3ImagePipelineConfigFactory {
                         public void accept(Response response) throws Exception {
                             fetchState.responseTime = SystemClock.elapsedRealtime();
                             final ResponseBody body = response.body();
-                            try {
-                                long contentLength = body.contentLength();
-                                if (contentLength < 0) {
-                                    contentLength = 0;
-                                }
-                                callback.onResponse(body.byteStream(), (int) contentLength);
-                            } catch (Exception e) {
-                                onError(e);
-                            } finally {
-                                try {
-                                    body.close();
-                                } catch (Exception e) {
-                                    onError(e);
-                                }
+                            long contentLength = body.contentLength();
+                            if (contentLength < 0) {
+                                contentLength = 0;
                             }
+                            callback.onResponse(body.byteStream(), (int) contentLength);
+                            body.close();
                         }
                     }, new io.reactivex.functions.Consumer<Throwable>() {
                         @Override
