@@ -7,6 +7,6 @@
   * 快速、极简
 
 ##### 截图：
-
+![gif](https://raw.githubusercontent.com/ayaseruri/vscam/master/gif/gif.gif)
 ##### 下载：
 [Android GooglePlay]()
