@@ -20,6 +20,32 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    signingConfigs {
+        release {
+            storeFile file("key.jks")
+            storePassword "itorr_ayaseruri_Pass"
+            keyAlias "ayaseruri"
+            keyPassword "itorr_ayaseruri_Pass"
+        }
+
+        debug {
+            storeFile file("key.jks")
+            storePassword "itorr_ayaseruri_Pass"
+            keyAlias "ayaseruri"
+            keyPassword "itorr_ayaseruri_Pass"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
