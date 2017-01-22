@@ -1,6 +1,6 @@
 # VSCAM
 
-VSCAM 简单的分享 VSCO 调整修改过的照片的平台，此处为使用 Java 编写的 Android 版本，iOS 版参见：[https://eyrefree.github.io/VSCAM/](https://eyrefree.github.io/VSCAM/)，更多信息请访问官网：[http://vscam.co/](http://vscam.co/)。
+VSCAM 是一个简单的分享 VSCO 调整修改过的照片的平台，此处为使用 Java 编写的 Android 版本，iOS 版参见：[https://eyrefree.github.io/VSCAM/](https://eyrefree.github.io/VSCAM/)，更多信息请访问官网：[http://vscam.co/](http://vscam.co/)。
 
 ## 特点
 
