@@ -27,14 +27,14 @@ android {
         release {
             storeFile file("key.jks")
             storePassword "itorr_ayaseruri_Pass"
-            keyAlias "ayaseruri"
+            keyAlias "ayaseruri_key"
             keyPassword "itorr_ayaseruri_Pass"
         }
 
         debug {
             storeFile file("key.jks")
             storePassword "itorr_ayaseruri_Pass"
-            keyAlias "ayaseruri"
+            keyAlias "ayaseruri_key"
             keyPassword "itorr_ayaseruri_Pass"
         }
     }
