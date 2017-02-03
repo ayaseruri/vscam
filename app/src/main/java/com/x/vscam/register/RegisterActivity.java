@@ -9,6 +9,7 @@ import com.x.vscam.R;
 import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.global.net.ApiIml;
 import com.x.vscam.global.ui.BaseActivity;
+import com.x.vscam.global.utils.UserInfoUtils;
 import com.x.vscam.global.utils.Utils;
 import com.x.vscam.login.LoginErrorException;
 
@@ -26,6 +27,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import ykooze.ayaseruri.codesslib.others.InputMethodUtils;
+import ykooze.ayaseruri.codesslib.others.ToastUtils;
 import ykooze.ayaseruri.codesslib.rx.RxUtils;
 import ykooze.ayaseruri.codesslib.ui.BabushkaText;
 
@@ -64,6 +66,14 @@ public class RegisterActivity extends BaseActivity {
         Utils.setDisplayHomeAsUp(this, mToolbar);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(UserInfoUtils.isLogin(RegisterActivity.this)){
+            finish();
+        }
+    }
+
     @Click(R.id.register_btn)
     void onRegister(){
         if(!mUserAgreementCheck.isChecked()){
@@ -96,6 +106,7 @@ public class RegisterActivity extends BaseActivity {
                     @Override
                     public ObservableSource<UserBean> apply(UserBean userBean) throws Exception {
                         if(TextUtils.isEmpty(userBean.getError())){
+                            UserInfoUtils.saveUserInfo(RegisterActivity.this, userBean);
                             return Observable.just(userBean);
                         }
                         return Observable.error(new LoginErrorException(userBean.getError()));
@@ -109,7 +120,8 @@ public class RegisterActivity extends BaseActivity {
 
                     @Override
                     public void onNext(UserBean userBean) {
-
+                        ToastUtils.showTost(RegisterActivity.this, ToastUtils.TOAST_CONFIRM, "注册成功");
+                        finish();
                     }
 
                     @Override

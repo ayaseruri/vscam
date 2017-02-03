@@ -70,16 +70,20 @@ public class ImgFlowView extends SwipeRefreshLayout {
             @Override
             public List<ImgFlowBean.GridsBean> getRefreshData() throws Exception {
                 ImgFlowBean data = apiInterface.getImgFlow(0, uid).execute().body();
-                data = ProcessDataUtils.addUserInfo(data);
-                SerializeUtils.serializationSync(getContext(), tag, data.getGrids());
-                return data.getGrids();
+                if(null == data){
+                    return null;
+                }else {
+                    data = ProcessDataUtils.addUserInfo(data);
+                    SerializeUtils.serializationSync(getContext(), tag, data.getGrids());
+                    return data.getGrids();
+                }
             }
 
             @Override
             public List<ImgFlowBean.GridsBean> getLoadMoreData() throws Exception {
                 ImgFlowBean data = apiInterface.getImgFlow(mLastUnix, uid).execute().body();
                 data = ProcessDataUtils.addUserInfo(data);
-                return data.getGrids();
+                return null == data ? null : data.getGrids();
             }
 
             @Override

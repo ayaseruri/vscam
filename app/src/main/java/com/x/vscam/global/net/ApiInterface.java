@@ -6,6 +6,7 @@ import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.imgdetail.ImgDetailBean;
 import com.x.vscam.imgdetail.MapBean;
 import com.x.vscam.main.ImgFlowBean;
+import com.x.vscam.settings.SettingsBean;
 import com.x.vscam.settings.UploadAvatarResponseBean;
 import com.x.vscam.upload.UploadResponseBean;
 
@@ -78,5 +79,5 @@ public interface ApiInterface {
     @FormUrlEncoded
     @Headers("referer:https://vscam.co")
     @POST("/x/?a=u")
-    Observable<UserBean> editInfo(@Field("des") String des, @Field("url") String url);
+    Observable<SettingsBean> editInfo(@Field("des") String des, @Field("url") String url);
 }

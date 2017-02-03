@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 def AAVersion = '4.2.0'
-def AVer = '25.1.0'
+def AVer = '25.1.1'
 
 android {
     compileSdkVersion 25
@@ -57,7 +57,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile "com.android.support:appcompat-v7:$AVer"
     compile "com.android.support:design:$AVer"
-    compile 'com.facebook.fresco:fresco:1.0.0'
+    compile 'com.facebook.fresco:fresco:1.0.1'
     compile 'me.relex:photodraweeview:1.1.2'
     compile 'com.github.medyo:android-about-page:1.1.1'
     compile 'com.tencent.bugly:crashreport_upgrade:latest.release'

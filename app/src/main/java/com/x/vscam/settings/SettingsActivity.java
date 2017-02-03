@@ -10,8 +10,6 @@ import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.drawable.ScalingUtils;
-import com.facebook.drawee.view.DraweeTransition;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.x.vscam.R;
 import com.x.vscam.global.Constans;
@@ -31,13 +29,15 @@ import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -149,11 +149,36 @@ public class SettingsActivity extends RxActivity {
 
         ApiIml.getInstance(this)
                 .editInfo(introduce, blog)
-                .compose(RxUtils.<UserBean>applySchedulers())
-                .subscribe(new Consumer<UserBean>() {
+                .compose(RxUtils.<SettingsBean>applySchedulers())
+                .flatMap(new Function<SettingsBean, ObservableSource<SettingsBean>>() {
                     @Override
-                    public void accept(UserBean userBean) throws Exception {
-
+                    public ObservableSource<SettingsBean> apply(SettingsBean userBean) throws Exception {
+                        if(TextUtils.isEmpty(userBean.getError())){
+                            return Observable.just(userBean);
+                        }else {
+                            return Observable.error(new SettingsErrorException(userBean.getError()));
+                        }
+                    }
+                })
+                .subscribe(new Consumer<SettingsBean>() {
+                    @Override
+                    public void accept(SettingsBean settingsBean) throws Exception {
+                        if(UserInfoUtils.isLogin(SettingsActivity.this)){
+                            UserBean userBean = UserInfoUtils.getUserInfo(SettingsActivity.this);
+                            userBean.setDes(settingsBean.getDes());
+                            userBean.setUrl(settingsBean.getUrl());
+                            UserInfoUtils.saveUserInfo(SettingsActivity.this, userBean);
+                            Utils.getSnackBar(SettingsActivity.this, "信息修改成功").show();
+                        }else {
+                            Utils.getSnackBar(SettingsActivity.this, "信息修改出错").show();
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        if(throwable instanceof SettingsErrorException){
+                            Utils.getSnackBar(SettingsActivity.this, throwable.getMessage()).show();
+                        }
                     }
                 });
     }

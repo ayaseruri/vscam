@@ -9,15 +9,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="发现更新"
-        android:textColor="?attr/colorAccent"
+        android:textColor="@color/colorAccent"
         android:layout_margin="8dp"
+        android:tag="beta_title"
         android:gravity="center_horizontal"
-        style="@style/TextAppearance.AppCompat.Title"/>
+        android:textSize="18sp"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2px"
-        android:background="?attr/colorAccent" />
+        android:background="@color/colorAccent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="更新日志"
+        android:textColor="#333333"
+        android:layout_margin="8dp"
+        android:tag="beta_upgrade_info" />
 
     <TextView
         android:id="@+id/update_detail"
@@ -26,8 +35,7 @@
         android:text="更新日志"
         android:textColor="#333333"
         android:layout_margin="8dp"
-        android:tag="beta_upgrade_feature"
-        style="@style/Base.TextAppearance.AppCompat.Body1"/>
+        android:tag="beta_upgrade_feature" />
 
     <LinearLayout
         android:layout_width="match_parent"

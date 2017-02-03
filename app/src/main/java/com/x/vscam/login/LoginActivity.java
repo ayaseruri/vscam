@@ -9,11 +9,11 @@ import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.DraweeTransition;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.x.vscam.R;
-import com.x.vscam.global.Constans;
 import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.global.net.ApiIml;
 import com.x.vscam.global.ui.BaseActivity;
 import com.x.vscam.global.utils.StartUtils;
+import com.x.vscam.global.utils.UserInfoUtils;
 import com.x.vscam.global.utils.Utils;
 
 import android.net.Uri;
@@ -33,8 +33,8 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-import ykooze.ayaseruri.codesslib.cache.CacheUtils;
 import ykooze.ayaseruri.codesslib.others.InputMethodUtils;
+import ykooze.ayaseruri.codesslib.others.ToastUtils;
 import ykooze.ayaseruri.codesslib.rx.RxUtils;
 
 @EActivity(R.layout.activity_login)
@@ -62,6 +62,14 @@ public class LoginActivity extends BaseActivity {
         initFrescoShareElement();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(UserInfoUtils.isLogin(LoginActivity.this)){
+            finish();
+        }
+    }
+
     @Click(R.id.login_btn)
     void onLogin(){
         String email = mEmail.getEditText().getText().toString();
@@ -82,7 +90,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public ObservableSource<UserBean> apply(UserBean userBean) throws Exception {
                         if(TextUtils.isEmpty(userBean.getError())){
-                            CacheUtils.putDisk(LoginActivity.this, Constans.KEY_USER_INFO, userBean);
+                            UserInfoUtils.saveUserInfo(LoginActivity.this, userBean);
                             return Observable.just(userBean);
                         }else {
                             return Observable.error(new LoginErrorException(userBean.getError()));
@@ -97,7 +105,8 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onNext(UserBean userBean) {
-
+                        ToastUtils.showTost(LoginActivity.this, ToastUtils.TOAST_CONFIRM, "登陆成功");
+                        finish();
                     }
 
                     @Override

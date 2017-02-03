@@ -28,16 +28,15 @@ public class MApplication extends Application{
         LocalDisplay.init(this);
 
         Beta.autoInit = true;
-        Beta.autoCheckUpgrade = false;
+        Beta.autoCheckUpgrade = true;
         Beta.upgradeCheckPeriod = 60 * 1000;
-        Beta.largeIconId = R.drawable.ic_launcher;
-        Beta.smallIconId = R.drawable.ic_launcher;
+        Beta.largeIconId = R.mipmap.ic_launcher;
+        Beta.smallIconId = R.mipmap.ic_launcher;
         Beta.storageDir = Environment
                 .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         Beta.showInterruptedStrategy = true;
         Beta.enableHotfix = false;
         Beta.canShowUpgradeActs.add(MainActivity.class);
-        Beta.upgradeDialogLayoutId = R.layout.view_upgrade_dialog;
         Bugly.init(getApplicationContext(), "5ecdad3de3", BuildConfig.DEBUG);
 
         if(!Fresco.hasBeenInitialized()){

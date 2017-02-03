@@ -1,9 +1,11 @@
 package com.x.vscam.global.utils;
 
+import com.x.vscam.R;
 import com.x.vscam.global.Constans;
 import com.x.vscam.global.bean.UserBean;
 import com.x.vscam.main.ImgFlowBean;
 
+import android.net.Uri;
 import android.text.TextUtils;
 
 /**
@@ -12,6 +14,10 @@ import android.text.TextUtils;
 
 public class ProcessDataUtils {
     public static ImgFlowBean addUserInfo(ImgFlowBean data){
+        if(null == data){
+            return null;
+        }
+
         for(ImgFlowBean.GridsBean gridsBean : data.getGrids()){
             for (UserBean usersBean : data.getUsers()){
                 if(gridsBean.getUid() == usersBean.getUid()){
@@ -34,7 +40,8 @@ public class ProcessDataUtils {
         return imgUrl;
     }
 
-    public static String getAvatar(UserBean userBean){
-        return 0 == userBean.getAvatar() ? "" : "http://vscam.co/avatar/b/" + userBean.getUid() + ".jpg";
+    public static Uri getAvatar(UserBean userBean){
+        return 0 == userBean.getAvatar() ? Uri.parse("res:///" + R.mipmap.ic_default_avatar) : Uri.parse("http://vscam.co/avatar/b/"
+                + userBean.getUid() + ".jpg");
     }
 }
