@@ -1,5 +1,6 @@
 package ykooze.ayaseruri.codesslib.others;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -41,6 +42,13 @@ public class ToastUtils {
                 break;
             default:
                 break;
+        }
+
+        if(context instanceof Activity){
+            Activity activity = (Activity) context;
+            if(activity.isFinishing()){
+                return;
+            }
         }
 
         SuperToast.create(context.getApplicationContext()
