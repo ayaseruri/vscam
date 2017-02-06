@@ -35,6 +35,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.reactivex.Observable;
@@ -82,7 +83,7 @@ public class ImgUploadActivity extends BaseActivity {
             mDescrption.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if(getResources().getInteger(R.integer.action_sub_img) == actionId){
+                    if(EditorInfo.IME_ACTION_DONE == actionId){
                         if(null == mUploadResponseBean){
                             Snackbar.make(mRootView, View.VISIBLE == mProgressBar.getVisibility() ? "请等待图片上传完成"
                                     : "请添加一张图片", Snackbar.LENGTH_LONG).show();

@@ -10,8 +10,8 @@ android {
         applicationId "com.x.vscam"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 12
+        versionName "1.2"
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a"
         }
