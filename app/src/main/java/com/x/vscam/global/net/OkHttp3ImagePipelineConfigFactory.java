@@ -1,5 +1,8 @@
 package com.x.vscam.global.net;
 
+import static io.reactivex.plugins.RxJavaPlugins.onError;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,11 +93,15 @@ public class OkHttp3ImagePipelineConfigFactory {
                         public void accept(Response response) throws Exception {
                             fetchState.responseTime = SystemClock.elapsedRealtime();
                             final ResponseBody body = response.body();
-                            long contentLength = body.contentLength();
-                            if (contentLength < 0) {
-                                contentLength = 0;
+                            if(response.isSuccessful()){
+                                long contentLength = body.contentLength();
+                                if (contentLength < 0) {
+                                    contentLength = 0;
+                                }
+                                callback.onResponse(body.byteStream(), (int) contentLength);
+                            }else {
+                                onError(new IOException("Unexpected HTTP code " + response));
                             }
-                            callback.onResponse(body.byteStream(), (int) contentLength);
                             body.close();
                         }
                     }, new io.reactivex.functions.Consumer<Throwable>() {
